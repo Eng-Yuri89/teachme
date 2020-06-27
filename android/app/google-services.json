@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:538990438816:android:0c49333e3f19c60d0cdcc5",
         "android_client_info": {
-          "package_name": "com.grupotlar.tlar"
+          "package_name": "io.int2.teachme"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "538990438816-flcj1aum03g43m2hou582nc7toj1lu36.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.grupotlar.tlar",
+            "package_name": "io.int2.teachme",
             "certificate_hash": "a486a336dad3a34f849ba49e42ac437934ae655e"
           }
         },
@@ -43,7 +43,7 @@
               "client_id": "538990438816-u2892q01ncul7da8oti7fh2sl9e3a1ar.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.grupotlar.tlar"
+                "bundle_id": "io.int2.teachme"
               }
             }
           ]
@@ -54,7 +54,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:538990438816:android:6263f16a23333bf8",
         "android_client_info": {
-          "package_name": "com.tlar.tlar_app"
+          "package_name": "io.int2.teachme"
         }
       },
       "oauth_client": [
@@ -62,7 +62,7 @@
           "client_id": "538990438816-624l9bmm5rqe5ppt3pfkqmjs9g0o58g0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.tlar.tlar_app",
+            "package_name": "io.int2.teachme",
             "certificate_hash": "cbaeb2510220d31a21346e535eab60a81c8d3d79"
           }
         },
@@ -70,7 +70,7 @@
           "client_id": "538990438816-oocirvan8du9rpseau3j02kp17orf900.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.tlar.tlar_app",
+            "package_name": "io.int2.teachme",
             "certificate_hash": "5780c055b93a0d120b527751696168581446b1d6"
           }
         },
@@ -95,7 +95,7 @@
               "client_id": "538990438816-u2892q01ncul7da8oti7fh2sl9e3a1ar.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.grupotlar.tlar"
+                "bundle_id": "io.int2.teachme"
               }
             }
           ]
