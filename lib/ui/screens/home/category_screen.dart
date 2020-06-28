@@ -38,7 +38,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget _filterInput(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: screenAwareWidth(30, context),
+          horizontal: screenAwareWidth(20, context),
           vertical: screenAwareHeight(30, context)),
       child: Container(
         padding:
@@ -96,7 +96,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Expanded(
       child: GridView.count(
         padding:
-            EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+            EdgeInsets.symmetric(horizontal: screenAwareWidth(10, context)),
         crossAxisCount: 2,
         children: _categories
             .map(
