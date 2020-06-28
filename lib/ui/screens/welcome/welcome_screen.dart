@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:teachme/ui/screens/teacher/teacher_detail.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
+import 'package:teachme/utils/helper_functions.dart';
 import 'package:teachme/utils/size.dart';
 
 /// Welcome screen.
@@ -120,7 +122,9 @@ class WelcomeScreen extends StatelessWidget {
         enabledColor: const Color.fromRGBO(255, 90, 90, 1),
         isLoading: false,
         borderRadius: 5,
-        onTap: () {},
+        onTap: () {
+          navigateTo(context, TeacherDetail());
+        },
         height: screenAwareHeight(50, context),
         enabled: true,
         child: Text(
