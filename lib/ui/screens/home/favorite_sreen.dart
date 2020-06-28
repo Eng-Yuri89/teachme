@@ -9,6 +9,8 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScrenState extends State<FavoriteScreen> {
+  bool _isFavorite = false;
+
   static ThemeData _theme;
 
   //Favorite list.
@@ -243,10 +245,19 @@ class _FavoriteScrenState extends State<FavoriteScreen> {
             ),
           ),
           //Favorite button.
-          Image.asset(
-            "assets/landing/favorite.png",
-            fit: BoxFit.fill,
-            width: screenAwareWidth(16, context),
+          InkWell(
+            child: Image.asset(
+              _isFavorite
+                  ? "assets/favorite/favorite.png"
+                  : "assets/landing/favorite.png",
+              fit: BoxFit.fill,
+              width: screenAwareWidth(16, context),
+            ),
+            onTap: () {
+              _isFavorite = !_isFavorite;
+
+              setState(() {});
+            },
           )
         ],
       ),
