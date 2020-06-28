@@ -119,13 +119,10 @@ flutter:
     - assets/onboarding/
     - assets/landing/
     - assets/welcome/
-<<<<<<< HEAD
     - assets/profile/
-=======
     - assets/branding/
     - assets/settings/
     - assets/teacher/
->>>>>>> 8836e0434a5dd8d0c9fbaf2ed303bb4eca521fd2
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

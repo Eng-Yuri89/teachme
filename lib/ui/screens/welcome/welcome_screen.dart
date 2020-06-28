@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teachme/ui/screens/landing_screen.dart';
-import 'package:teachme/ui/screens/teacher/teacher_detail.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
-import 'package:teachme/utils/helper_functions.dart';
 import 'package:teachme/utils/size.dart';
 
 /// Welcome screen.

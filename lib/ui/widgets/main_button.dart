@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teachme/utils/size.dart';
 
 /// Main button that is used throughout
 /// the application for different actions,
@@ -63,7 +64,8 @@ class _MainButtonState extends State<MainButton> {
       child: RaisedButton(
         elevation: 0,
         shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(widget.borderRadius),
+          borderRadius: new BorderRadius.circular(
+              screenAwareWidth(widget.borderRadius, context)),
           side: BorderSide(color: _borderColor),
         ),
         child: widget.isLoading
@@ -73,7 +75,8 @@ class _MainButtonState extends State<MainButton> {
                 child: CircularProgressIndicator(
                   backgroundColor: Colors.white,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                      Theme.of(context).primaryColor),
+                    Theme.of(context).primaryColor,
+                  ),
                 ),
               )
             : widget.child,
