@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/size.dart';
 
 /// Welcome screen.
@@ -18,9 +19,7 @@ class WelcomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Column(
-            children: <Widget>[
-              _pageHeader(context),
-            ],
+            children: <Widget>[_pageHeader(context), _buttons(context)],
           ),
         ),
       ),
@@ -51,15 +50,85 @@ class WelcomeScreen extends StatelessWidget {
         SizedBox(
           height: screenAwareHeight(30, context),
         ),
-        Text(
-          "When you create a new account you accept the Terms of Use of TeachMe",
-          style: _theme.textTheme.subtitle2.copyWith(
-            color: const Color.fromRGBO(249, 249, 255, 0.5),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: screenAwareWidth(70, context)),
+          child: Text(
+            "When you create a new account you accept the Terms of Use of TeachMe",
+            style: _theme.textTheme.subtitle2.copyWith(
+              color: const Color.fromRGBO(249, 249, 255, 0.5),
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-          
+        ),
+        SizedBox(
+          height: screenAwareHeight(80, context),
         ),
       ],
+    );
+  }
+
+  ///Login buttons are created
+  Widget _buttons(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        _facebookButton(context),
+        SizedBox(
+          height: screenAwareHeight(20, context),
+        ),
+        Text(
+          "or",
+          style: _theme.textTheme.subtitle1.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
+        SizedBox(
+          height: screenAwareHeight(20, context),
+        ),
+        _googleButton(context),
+      ],
+    );
+  }
+
+  ///Returns the button to log in with Facebook
+  Widget _facebookButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      child: MainButton(
+        enabledColor: const Color.fromRGBO(90, 126, 255, 1),
+        isLoading: false,
+        borderRadius: 5,
+        onTap: () {},
+        height: screenAwareHeight(50, context),
+        enabled: true,
+        child: Text(
+          "Continue with Facebook",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  ///Returns the button to log in with Google
+  Widget _googleButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      child: MainButton(
+        enabledColor: const Color.fromRGBO(255, 90, 90, 1),
+        isLoading: false,
+        borderRadius: 5,
+        onTap: () {},
+        height: screenAwareHeight(50, context),
+        enabled: true,
+        child: Text(
+          "Continue with Google",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
+      ),
     );
   }
 }
