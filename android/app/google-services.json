@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "538990438816",
-    "firebase_url": "https://accesscontrol-509b8.firebaseio.com",
-    "project_id": "accesscontrol-509b8",
-    "storage_bucket": "accesscontrol-509b8.appspot.com"
+    "project_number": "624421321431",
+    "firebase_url": "https://teachme-52b55.firebaseio.com",
+    "project_id": "teachme-52b55",
+    "storage_bucket": "teachme-52b55.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:538990438816:android:0c49333e3f19c60d0cdcc5",
+        "mobilesdk_app_id": "1:624421321431:android:84f70e9d7855bdc262ce92",
         "android_client_info": {
           "package_name": "io.int2.teachme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "538990438816-flcj1aum03g43m2hou582nc7toj1lu36.apps.googleusercontent.com",
+          "client_id": "624421321431-irl9hbeg1eorrj6un3c7dlv0hcp76fi2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "io.int2.teachme",
@@ -23,80 +23,21 @@
           }
         },
         {
-          "client_id": "538990438816-0981fvpgbot2badts9jj73p44167fcaq.apps.googleusercontent.com",
+          "client_id": "624421321431-4m6l44a1aoe6i6t33r5mdk0qudt7149t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBaYETQt89fjMBB-rKumAEV6WbFkUy2GxE"
+          "current_key": "AIzaSyC-bytASMZrNrD9dyjAqA4p84uvefT1JUA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "538990438816-0981fvpgbot2badts9jj73p44167fcaq.apps.googleusercontent.com",
+              "client_id": "624421321431-4m6l44a1aoe6i6t33r5mdk0qudt7149t.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "538990438816-u2892q01ncul7da8oti7fh2sl9e3a1ar.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "io.int2.teachme"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:538990438816:android:6263f16a23333bf8",
-        "android_client_info": {
-          "package_name": "io.int2.teachme"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "538990438816-624l9bmm5rqe5ppt3pfkqmjs9g0o58g0.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.int2.teachme",
-            "certificate_hash": "cbaeb2510220d31a21346e535eab60a81c8d3d79"
-          }
-        },
-        {
-          "client_id": "538990438816-oocirvan8du9rpseau3j02kp17orf900.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.int2.teachme",
-            "certificate_hash": "5780c055b93a0d120b527751696168581446b1d6"
-          }
-        },
-        {
-          "client_id": "538990438816-0981fvpgbot2badts9jj73p44167fcaq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBaYETQt89fjMBB-rKumAEV6WbFkUy2GxE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "538990438816-0981fvpgbot2badts9jj73p44167fcaq.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "538990438816-u2892q01ncul7da8oti7fh2sl9e3a1ar.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "io.int2.teachme"
-              }
             }
           ]
         }
