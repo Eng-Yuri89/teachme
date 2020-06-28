@@ -32,7 +32,7 @@ class RouteScreen extends StatelessWidget {
               builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.data) {
-                    return OnBoardingScreen();
+                    return WelcomeScreen();
                   }
                   return OnBoardingScreen();
                 } else {
