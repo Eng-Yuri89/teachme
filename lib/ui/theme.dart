@@ -18,7 +18,7 @@ ThemeData buildLightTheme() {
 
   // And apply changes on it:
   return base.copyWith(
-    textTheme: GoogleFonts.robotoTextTheme(),
+    textTheme: GoogleFonts.montserratTextTheme(),
     primaryColor: const Color.fromRGBO(114, 63, 232, 1),
     accentColor: const Color.fromRGBO(103, 90, 255, 1),
     scaffoldBackgroundColor: const Color(0x020202),
