@@ -22,17 +22,21 @@ class MainButton extends StatefulWidget {
   final double height;
   // Loading indicator.
   final bool isLoading;
+  //Custom border radius.
+  final double borderRadius;
 
-  MainButton(
-      {this.disableColor,
-      @required this.enabledColor,
-      this.borderColor,
-      @required this.onTap,
-      @required this.child,
-      @required this.enabled,
-      this.width,
-      @required this.height,
-      @required this.isLoading});
+  MainButton({
+    this.disableColor,
+    @required this.enabledColor,
+    this.borderColor,
+    @required this.onTap,
+    @required this.child,
+    @required this.enabled,
+    this.width,
+    @required this.height,
+    @required this.isLoading,
+    @required this.borderRadius,
+  });
 
   @override
   _MainButtonState createState() => _MainButtonState();
@@ -59,8 +63,9 @@ class _MainButtonState extends State<MainButton> {
       child: RaisedButton(
         elevation: 0,
         shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(5),
-            side: BorderSide(color: _borderColor)),
+          borderRadius: new BorderRadius.circular(widget.borderRadius),
+          side: BorderSide(color: _borderColor),
+        ),
         child: widget.isLoading
             ? SizedBox(
                 width: widget.height - 25,
