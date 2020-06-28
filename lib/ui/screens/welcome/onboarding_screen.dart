@@ -115,7 +115,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         //Mails manage image.
         Center(
           child: Image.asset(
-            "assets/learning_page.png",
+            "assets/onboarding/learning_page.png",
             fit: BoxFit.fill,
             width: screenAwareWidth(250, context),
           ),
@@ -150,7 +150,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         //Mails manage image.
         Center(
           child: Image.asset(
-            "assets/people_page.png",
+            "assets/onboarding/people_page.png",
             fit: BoxFit.fill,
             width: screenAwareWidth(250, context),
           ),
@@ -183,7 +183,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         //Mails manage image.
         Center(
           child: Image.asset(
-            "assets/class_page.png",
+            "assets/onboarding/class_page.png",
             fit: BoxFit.fill,
             width: screenAwareWidth(250, context),
           ),

@@ -101,32 +101,32 @@ class _LandingScreenState extends State<LandingScreen> {
                 // Home option.
                 _option(
                   context,
-                  "assets/home.png",
-                  "assets/home_active.png",
+                  "assets/landing/home.png",
+                  "assets/landing/home_active.png",
                   "Home",
                   0,
                 ),
                 // Categories option.
                 _option(
                   context,
-                  "assets/search.png",
-                  "assets/search_active.png",
+                  "assets/landing/search.png",
+                  "assets/landing/search_active.png",
                   "Categories",
                   1,
                 ),
                 // Favorite option.
                 _option(
                   context,
-                  "assets/favorite.png",
-                  "assets/favorite_active.png",
+                  "assets/landing/favorite.png",
+                  "assets/landing/favorite_active.png",
                   "Favorites",
                   2,
                 ),
                 // Profile option.
                 _option(
                   context,
-                  "assets/profile.png",
-                  "assets/profile_active.png",
+                  "assets/landing/profile.png",
+                  "assets/landing/profile_active.png",
                   "Profile",
                   3,
                 ),
