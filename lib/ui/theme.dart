@@ -20,7 +20,7 @@ ThemeData buildLightTheme() {
   return base.copyWith(
     textTheme: GoogleFonts.montserratTextTheme(),
     primaryColor: const Color.fromRGBO(114, 63, 232, 1),
-    accentColor: const Color.fromRGBO(103, 90, 255, 1),
+    accentColor: const Color.fromRGBO(249, 249, 255, 1),
     scaffoldBackgroundColor: const Color(0x020202),
     backgroundColor: const Color.fromRGBO(249, 249, 255, 1),
     appBarTheme: AppBarTheme(color: Color(0xFFFFFFFF)),
