@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:teachme/utils/size.dart';
 
-class FavoritePage extends StatefulWidget {
+class FavoriteScreen extends StatefulWidget {
   @override
-  _FavoritePageState createState() => _FavoritePageState();
+  _FavoriteScrenState createState() => _FavoriteScrenState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _FavoriteScrenState extends State<FavoriteScreen> {
   static ThemeData _theme;
 
   TextEditingController _filterController = new TextEditingController();
@@ -35,7 +35,7 @@ class _FavoritePageState extends State<FavoritePage> {
             EdgeInsets.symmetric(horizontal: screenAwareWidth(15, context)),
         height: screenAwareHeight(50, context),
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(127, 128, 132, 0.1),
+          color: const Color.fromRGBO(26, 27, 29, 1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(

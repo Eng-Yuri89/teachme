@@ -45,7 +45,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             EdgeInsets.symmetric(horizontal: screenAwareWidth(15, context)),
         height: screenAwareHeight(50, context),
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(127, 128, 132, 0.1),
+          color: const Color.fromRGBO(26, 27, 29, 1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
