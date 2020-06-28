@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teachme/ui/screens/landing_screen.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/size.dart';
 
@@ -99,7 +100,10 @@ class WelcomeScreen extends StatelessWidget {
         enabledColor: const Color.fromRGBO(90, 126, 255, 1),
         isLoading: false,
         borderRadius: 5,
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => LandingScreen()));
+        },
         height: screenAwareHeight(50, context),
         enabled: true,
         child: Text(
@@ -120,7 +124,10 @@ class WelcomeScreen extends StatelessWidget {
         enabledColor: const Color.fromRGBO(255, 90, 90, 1),
         isLoading: false,
         borderRadius: 5,
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => LandingScreen()));
+        },
         height: screenAwareHeight(50, context),
         enabled: true,
         child: Text(
