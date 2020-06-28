@@ -5,9 +5,10 @@ import 'package:teachme/services/auth_service.dart';
 import 'package:teachme/services/db.dart';
 import 'package:teachme/ui/screens/landing_screen.dart';
 import 'package:teachme/ui/screens/welcome/onboarding_screen.dart';
-import 'package:teachme/ui/screens/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home/loading_screen.dart';
 
 /// RouterScreen
 ///
@@ -42,16 +43,7 @@ class RouteScreen extends StatelessWidget {
             child: LandingScreen(),
           );
         } else {
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(
-                backgroundColor:
-                    Theme.of(context).primaryColor.withOpacity(0.4),
-                valueColor:
-                    AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-              ),
-            ),
-          );
+          return LoadingScreen();
         }
       },
     );
