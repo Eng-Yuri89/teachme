@@ -56,8 +56,18 @@ class _LandingScreenState extends State<LandingScreen> {
     super.initState();
     _views = [
       HomeScreen(),
-      EventsScreen(),
-      NotificationScreen(),
+      Container(
+        color: Colors.white,
+        child: Center(
+          child: Text("Categories"),
+        ),
+      ),
+      Container(
+        color: Colors.white,
+        child: Center(
+          child: Text("Favorites"),
+        ),
+      ),
       ProfileScreen()
     ];
   }
@@ -83,7 +93,7 @@ class _LandingScreenState extends State<LandingScreen> {
               selectedFontSize: screenAwareWidth(12, context),
               onTap: onIndexChanged,
               elevation: 3,
-              backgroundColor: Theme.of(context).bottomAppBarColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               type: BottomNavigationBarType.fixed,
               currentIndex: _currentIndex,
               selectedItemColor: Theme.of(context).primaryColor,
@@ -91,35 +101,33 @@ class _LandingScreenState extends State<LandingScreen> {
                 // Home option.
                 _option(
                   context,
-                  "assets/home.svg",
-                  "assets/home_active.svg",
-                  "Inicio",
+                  "assets/home.png",
+                  "assets/home_active.png",
+                  "Home",
                   0,
                 ),
-                // Events option.
+                // Categories option.
                 _option(
                   context,
-                  "assets/events.svg",
-                  "assets/events_active.svg",
-                  "Mis Sitios",
+                  "assets/search.png",
+                  "assets/search_active.png",
+                  "Categories",
                   1,
                 ),
-                // Locations option.
-                //_option(context, "assets/locations.png", "assets/locations_active.png", "Locations", 2),
-                // Notifs option.
+                // Favorite option.
                 _option(
                   context,
-                  "assets/notifs.svg",
-                  "assets/notifs_active.svg",
-                  "Notifs",
+                  "assets/favorite.png",
+                  "assets/favorite_active.png",
+                  "Favorites",
                   2,
                 ),
                 // Profile option.
                 _option(
                   context,
-                  "assets/profile.svg",
-                  "assets/profile_active.svg",
-                  "Perfil",
+                  "assets/profile.png",
+                  "assets/profile_active.png",
+                  "Profile",
                   3,
                 ),
               ],
@@ -142,7 +150,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 height: screenAwareHeight(3, context),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.0),
-                  color: Theme.of(context).buttonColor,
+                  color: Theme.of(context).backgroundColor,
                 ),
               ),
             ),
@@ -158,7 +166,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return BottomNavigationBarItem(
       icon: Container(
         margin: EdgeInsets.only(bottom: screenAwareHeight(5, context)),
-        child: SvgPicture.asset(
+        child: Image.asset(
           image,
           fit: BoxFit.fill,
           width: screenAwareWidth(20, context),
@@ -166,7 +174,7 @@ class _LandingScreenState extends State<LandingScreen> {
       ),
       activeIcon: Container(
         margin: EdgeInsets.only(bottom: screenAwareHeight(5, context)),
-        child: SvgPicture.asset(
+        child: Image.asset(
           imageActive,
           fit: BoxFit.fill,
           width: screenAwareWidth(23, context),
@@ -176,8 +184,8 @@ class _LandingScreenState extends State<LandingScreen> {
         title,
         style: TextStyle(
           color: _currentIndex == index
-              ? Theme.of(context).buttonColor
-              : Theme.of(context).buttonColor.withOpacity(0.5),
+              ? Theme.of(context).backgroundColor
+              : Theme.of(context).backgroundColor.withOpacity(0.5),
           fontSize: screenAwareWidth(12, context),
           fontWeight: FontWeight.w500,
           fontStyle: FontStyle.normal,
