@@ -44,16 +44,20 @@ class WelcomeScreen extends StatelessWidget {
         ),
         Text(
           "Create an Account to start learning",
-          style: _theme.textTheme.subtitle2
-              .copyWith(color: _theme.backgroundColor),
+          style: _theme.textTheme.subtitle2.copyWith(
+            color: _theme.backgroundColor,
+          ),
         ),
         SizedBox(
           height: screenAwareHeight(30, context),
         ),
         Text(
           "When you create a new account you accept the Terms of Use of TeachMe",
-          style: _theme.textTheme.subtitle2
-              .copyWith(color: _theme.backgroundColor),
+          style: _theme.textTheme.subtitle2.copyWith(
+            color: const Color.fromRGBO(249, 249, 255, 0.5),
+          ),
+          textAlign: TextAlign.center,
+          
         ),
       ],
     );
