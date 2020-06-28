@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:teachme/ui/widgets/sufix_clear_icon.dart';
 import 'package:teachme/utils/size.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -9,60 +7,79 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  // Filter input controller
+  List<String> _categories = [
+    "Physical Training",
+    "Photography",
+    "Programming",
+    "Finances",
+    "Sciences",
+    "Design, Photography"
+  ];
+
   TextEditingController _filterController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: screenAwareHeight(32, context)),
-        _filterInput(context)
-      ],
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[_filterInput(context)],
+        ),
+      ),
     );
   }
 
-  /// Return the filter widget.
   Widget _filterInput(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(24, context)),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenAwareWidth(30, context),
+      ),
       child: Container(
-        padding: EdgeInsets.only(left: screenAwareWidth(15, context)),
+        padding:
+            EdgeInsets.symmetric(horizontal: screenAwareWidth(15, context)),
         height: screenAwareHeight(50, context),
         decoration: BoxDecoration(
-          color: const Color(0xFF1A1B1D),
+          color: const Color.fromRGBO(127, 128, 132, 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             // Search icon.
-            SvgPicture.asset(
-              "assets/landing/search.svg",
-              fit: BoxFit.fill,
-              width: screenAwareHeight(25, context),
-              color: Theme.of(context).backgroundColor.withOpacity(.5),
-            ),
+            Image.asset("assets/landing/search_active.png",
+                fit: BoxFit.fill, width: screenAwareHeight(25, context)),
             SizedBox(width: screenAwareWidth(10, context)),
             // Filter text or filters selected.
             Expanded(
               child: TextFormField(
                 controller: _filterController,
                 autofocus: false,
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2
-                    .copyWith(color: Theme.of(context).backgroundColor),
                 cursorColor: Theme.of(context).primaryColor,
                 decoration: InputDecoration(
-                  suffixIcon: SuffixClearButton(
-                    controller: _filterController,
-                  ),
+                  suffixIcon: _filterController.text == ""
+                      ? Container(width: 0, height: 0)
+                      : InkWell(
+                          child: Icon(Icons.close),
+                          onTap: () {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              _filterController.clear();
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              setState(() {});
+                            });
+                          }),
+                  contentPadding: EdgeInsets.fromLTRB(
+                      0,
+                      screenAwareHeight(20, context),
+                      screenAwareWidth(10, context),
+                      screenAwareHeight(20, context)),
                   border: InputBorder.none,
-                  hintText: "Search teacher by name or keyword",
-                  hintStyle: Theme.of(context).textTheme.subtitle2.copyWith(
-                      color:
-                          Theme.of(context).backgroundColor.withOpacity(0.5)),
+                  hintText: "Search by name or keyword",
+                  hintStyle: TextStyle(
+                    color: Color(0x7f060110),
+                    fontSize: screenAwareWidth(12, context),
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.normal,
+                  ),
                 ),
               ),
             ),
