@@ -32,25 +32,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            //Page header
-            _pageHeader(context, _theme)
-            /* PageView(
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                //Mails page.
-                _mailsPage(context),
-                //Fast and secure page.
-                _securePage(context),
-                //Events free page.
-                _eventsPage(context)
-              ],
-              onPageChanged: (index) {
-                _page.value = index;
-
-                setState(() {});
-              },
-            ), */
+            // Page header
+            _pageHeader(context, _theme),
+            // Pages of information
+            _pages(context)
           ],
         ),
       ),
@@ -85,19 +70,46 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
+  /// Returns the pages of information
+  /// to the application
+  Widget _pages(BuildContext context) {
+    return Expanded(
+      child: PageView(
+        controller: _pageController,
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          //Learning page.
+          _learningPage(context),
+          //Fast and secure page.
+          _securePage(context),
+          //Events free page.
+          _eventsPage(context)
+        ],
+        onPageChanged: (index) {
+          _page.value = index;
+
+          setState(() {});
+        },
+      ),
+    );
+  }
+
   /// Returns the page indicating that
-  ///  emails can be managed.
-  Widget _mailsPage(BuildContext context) {
+  /// it is learned in the application.
+  Widget _learningPage(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        SizedBox(
+          height: screenAwareHeight(60, context),
+        ),
         //Mails manage image.
         Center(
-          child: SvgPicture.asset(
-            "assets/onboarding_mails.svg",
+          child: Image.asset(
+            "assets/learning_page.png",
             fit: BoxFit.fill,
-            width: screenAwareWidth(285, context),
+            width: screenAwareWidth(250, context),
           ),
         ),
         SizedBox(height: screenAwareHeight(65.8, context)),
