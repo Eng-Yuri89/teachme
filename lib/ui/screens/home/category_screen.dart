@@ -79,7 +79,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       screenAwareWidth(10, context),
                       screenAwareHeight(0, context)),
                   border: InputBorder.none,
-                  hintText: "Search a Teacher",
+                  hintText: "Search a category",
                   hintStyle: TextStyle(
                     color: _theme.backgroundColor.withOpacity(0.50),
                   ),

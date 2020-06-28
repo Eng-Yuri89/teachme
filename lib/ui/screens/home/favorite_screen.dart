@@ -93,7 +93,7 @@ class _FavoriteScrenState extends State<FavoriteScreen> {
   Widget _filterInput(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: screenAwareWidth(30, context),
+          horizontal: screenAwareWidth(20, context),
           vertical: screenAwareHeight(30, context)),
       child: Container(
         padding:
@@ -134,7 +134,7 @@ class _FavoriteScrenState extends State<FavoriteScreen> {
                       screenAwareWidth(10, context),
                       screenAwareHeight(0, context)),
                   border: InputBorder.none,
-                  hintText: "Search a Teacher",
+                  hintText: "Search a teacher",
                   hintStyle: TextStyle(
                     color: _theme.backgroundColor.withOpacity(0.50),
                   ),
@@ -150,7 +150,7 @@ class _FavoriteScrenState extends State<FavoriteScreen> {
   ///Option header creation
   Widget _optionHeader(String title, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(30, context)),
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
       child: Text(
         title,
         style: _theme.textTheme.headline6.copyWith(
