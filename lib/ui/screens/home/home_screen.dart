@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:teachme/models/teacher.dart';
+import 'package:teachme/ui/screens/teacher/teacher_detail.dart';
 import 'package:teachme/utils/size.dart';
+import 'package:uuid/uuid.dart';
 
 /// Home screen
 ///
@@ -17,8 +19,8 @@ class HomeScreen extends StatelessWidget {
       email: "angelcabrera18398@gmail.com",
       fullname: "Angel Cabrera",
       phoneNumber: "+502 30435391",
-      description:
-          "Improve your UX skills and a couple of sessions Improve your UX skills and a couple of sessions Improve your UX skills and a couple of sessions.",
+      resume: "Teaches Photography and Video Production",
+      description: "Improve your UX skills and a couple of sessions.",
       photoUrl:
           "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
     ),
@@ -27,6 +29,7 @@ class HomeScreen extends StatelessWidget {
       email: "juanperez@gmail.com",
       fullname: "Juan Perez",
       phoneNumber: "+502 30344591",
+      resume: "Teaches Photography and Video Production",
       description: "Improve your UX skills and a couple of sessions.",
       photoUrl:
           "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
@@ -36,6 +39,7 @@ class HomeScreen extends StatelessWidget {
       email: "pedrosalazar@gmail.com",
       fullname: "Pedro Salazar",
       phoneNumber: "+502 98765434",
+      resume: "Teaches Photography and Video Production",
       description: "Improve your UX skills and a couple of sessions.",
       photoUrl:
           "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
@@ -48,6 +52,7 @@ class HomeScreen extends StatelessWidget {
       email: "angelcabrera18398@gmail.com",
       fullname: "Angel Cabrera",
       phoneNumber: "+502 30435391",
+      resume: "Teaches Photography and Video Production",
       description: "Software Engineer, 5 years mobile development experience.",
       photoUrl:
           "https://i.pinimg.com/originals/73/d3/1c/73d31c1a205363fa75e8c8834d3f1166.jpg",
@@ -57,6 +62,7 @@ class HomeScreen extends StatelessWidget {
       email: "juanperez@gmail.com",
       fullname: "Juan Perez",
       phoneNumber: "+502 30344591",
+      resume: "Teaches Photography and Video Production",
       description: "Software Engineer, 5 years mobile development experience.",
       photoUrl:
           "https://i.pinimg.com/originals/73/d3/1c/73d31c1a205363fa75e8c8834d3f1166.jpg",
@@ -66,6 +72,7 @@ class HomeScreen extends StatelessWidget {
       email: "pedrosalazar@gmail.com",
       fullname: "Pedro Salazar",
       phoneNumber: "+502 98765434",
+      resume: "Teaches Photography and Video Production",
       description: "Software Engineer, 5 years mobile development experience.",
       photoUrl:
           "https://i.pinimg.com/originals/73/d3/1c/73d31c1a205363fa75e8c8834d3f1166.jpg",
@@ -138,42 +145,60 @@ class HomeScreen extends StatelessWidget {
 
   /// Returns the teacher recommended card.
   Widget _recomemendedCard(BuildContext context, Teacher teacher) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        //Teacher image.
-        ClipRRect(
-          borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-          child: FadeInImage(
-            fit: BoxFit.fill,
-            width: screenAwareWidth(196, context),
-            height: screenAwareHeight(120, context),
-            placeholder: AssetImage("assets/home/loading.gif"),
-            image: NetworkImage(teacher.photoUrl),
-          ),
-        ),
-        SizedBox(height: screenAwareHeight(10, context)),
-        //Teacher name.
-        Text(
-          teacher.fullname,
-          style: _theme.textTheme.subtitle1.copyWith(
-            color: _theme.accentColor,
-          ),
-        ),
-        SizedBox(height: screenAwareHeight(10, context)),
-        Container(
-          width: screenAwareWidth(196, context),
-          height: screenAwareHeight(40, context),
-          child: AutoSizeText(
-            teacher.description,
-            style: _theme.textTheme.bodyText2.copyWith(
-              color: _theme.accentColor.withOpacity(0.8),
+    //Unique hero key.
+    final String _heroKey = "TeacherImage-${new Uuid().v4()}";
+
+    return InkWell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          //Teacher image.
+          Hero(
+            tag: _heroKey,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
+              child: FadeInImage(
+                fit: BoxFit.fill,
+                width: screenAwareWidth(196, context),
+                height: screenAwareHeight(120, context),
+                placeholder: AssetImage("assets/home/loading.gif"),
+                image: NetworkImage(teacher.photoUrl),
+              ),
             ),
-            textAlign: TextAlign.left,
-            overflow: TextOverflow.fade,
           ),
-        ),
-      ],
+          SizedBox(height: screenAwareHeight(10, context)),
+          //Teacher name.
+          Text(
+            teacher.fullname,
+            style: _theme.textTheme.subtitle1.copyWith(
+              color: _theme.accentColor,
+            ),
+          ),
+          SizedBox(height: screenAwareHeight(10, context)),
+          Container(
+            width: screenAwareWidth(196, context),
+            height: screenAwareHeight(40, context),
+            child: AutoSizeText(
+              teacher.description,
+              style: _theme.textTheme.bodyText2.copyWith(
+                color: _theme.accentColor.withOpacity(0.8),
+              ),
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.fade,
+            ),
+          ),
+        ],
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => (TeacherDetail(
+              teacher: teacher,
+              heroKey: _heroKey,
+            )),
+          ),
+        );
+      },
     );
   }
 
@@ -216,50 +241,68 @@ class HomeScreen extends StatelessWidget {
   /// Returns the top rated teacher
   /// card with relevant information.
   Widget _topCard(BuildContext context, Teacher teacher) {
-    return Row(
-      children: <Widget>[
-        //Teacher image.
-        _topCardImage(context, teacher),
-        SizedBox(width: screenAwareWidth(15, context)),
-        Container(
-          height: screenAwareHeight(100, context),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //Header card.
-              _topCardHeader(context, teacher),
-              //Teacher description.
-              Container(
-                height: screenAwareHeight(38, context),
-                width: screenAwareWidth(260, context),
-                child: AutoSizeText(
-                  teacher.description,
-                  style: _theme.textTheme.bodyText2.copyWith(
-                    color: _theme.backgroundColor.withOpacity(0.8),
+    //Unique hero key.
+    final String _heroKey = "TeacherImage-${new Uuid().v4()}";
+
+    return InkWell(
+      child: Row(
+        children: <Widget>[
+          //Teacher image.
+          _topCardImage(context, teacher, _heroKey),
+          SizedBox(width: screenAwareWidth(15, context)),
+          Container(
+            height: screenAwareHeight(100, context),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                //Header card.
+                _topCardHeader(context, teacher),
+                //Teacher description.
+                Container(
+                  height: screenAwareHeight(38, context),
+                  width: screenAwareWidth(260, context),
+                  child: AutoSizeText(
+                    teacher.description,
+                    style: _theme.textTheme.bodyText2.copyWith(
+                      color: _theme.backgroundColor.withOpacity(0.8),
+                    ),
+                    textAlign: TextAlign.justify,
                   ),
-                  textAlign: TextAlign.justify,
                 ),
-              ),
-              _topCartFooter(context, teacher),
-            ],
+                _topCartFooter(context, teacher),
+              ],
+            ),
+          )
+        ],
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => (TeacherDetail(
+              teacher: teacher,
+              heroKey: _heroKey,
+            )),
           ),
-        )
-      ],
+        );
+      },
     );
   }
 
   ///Return the top rated card image.
-  Widget _topCardImage(BuildContext context, Teacher teacher) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-      child: FadeInImage(
-        fit: BoxFit.fill,
-        height: screenAwareHeight(100, context),
-        width: screenAwareWidth(60, context),
-        placeholder: AssetImage("assets/home/loading.gif"),
-        image: NetworkImage(teacher.photoUrl),
+  Widget _topCardImage(BuildContext context, Teacher teacher, String heroKey) {
+    return Hero(
+      tag: heroKey,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
+        child: FadeInImage(
+          fit: BoxFit.fill,
+          height: screenAwareHeight(100, context),
+          width: screenAwareWidth(60, context),
+          placeholder: AssetImage("assets/home/loading.gif"),
+          image: NetworkImage(teacher.photoUrl),
+        ),
       ),
     );
   }
