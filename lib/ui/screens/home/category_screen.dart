@@ -7,6 +7,8 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
+  static ThemeData _theme;
+
   List<String> _categories = [
     "Physical Training",
     "Photography",
@@ -20,10 +22,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: <Widget>[_filterInput(context)],
+          children: <Widget>[
+            _filterInput(context),
+            _grid(context),
+          ],
         ),
       ),
     );
@@ -32,8 +38,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget _filterInput(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: screenAwareWidth(30, context),
-      ),
+          horizontal: screenAwareWidth(30, context),
+          vertical: screenAwareHeight(30, context)),
       child: Container(
         padding:
             EdgeInsets.symmetric(horizontal: screenAwareWidth(15, context)),
@@ -45,7 +51,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         child: Row(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            // Search icon.
+            // Search icon
             Image.asset("assets/landing/search_active.png",
                 fit: BoxFit.fill, width: screenAwareHeight(25, context)),
             SizedBox(width: screenAwareWidth(10, context)),
@@ -69,22 +75,55 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           }),
                   contentPadding: EdgeInsets.fromLTRB(
                       0,
-                      screenAwareHeight(20, context),
+                      screenAwareHeight(15, context),
                       screenAwareWidth(10, context),
-                      screenAwareHeight(20, context)),
+                      screenAwareHeight(0, context)),
                   border: InputBorder.none,
-                  hintText: "Search by name or keyword",
+                  hintText: "Search a Teacher",
                   hintStyle: TextStyle(
-                    color: Color(0x7f060110),
-                    fontSize: screenAwareWidth(12, context),
-                    fontWeight: FontWeight.w500,
-                    fontStyle: FontStyle.normal,
+                    color: _theme.backgroundColor.withOpacity(0.50),
                   ),
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _grid(BuildContext context) {
+    return Expanded(
+      child: GridView.count(
+        padding:
+            EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+        crossAxisCount: 2,
+        children: _categories
+            .map(
+              (c) => Container(
+                decoration: BoxDecoration(
+                  color: Color.fromRGBO(26, 27, 29, 1),
+                  borderRadius: BorderRadius.circular(
+                    screenAwareWidth(5, context),
+                  ),
+                ),
+                margin: new EdgeInsets.symmetric(
+                  horizontal: screenAwareHeight(10, context),
+                  vertical: screenAwareWidth(10, context),
+                ),
+                width: 50,
+                height: 50,
+                child: Center(
+                  child: Text(
+                    "$c",
+                    style: _theme.textTheme.subtitle2.copyWith(
+                      color: _theme.backgroundColor,
+                    ),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }
