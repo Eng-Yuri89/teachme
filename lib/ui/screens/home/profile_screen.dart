@@ -71,6 +71,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  ///Header creation
   Widget _userImage(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -126,6 +127,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  ///Option header creation
   Widget _optionHeader(String title, BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
@@ -138,6 +140,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  ///Listtile creation
   Widget _option(String title, BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
