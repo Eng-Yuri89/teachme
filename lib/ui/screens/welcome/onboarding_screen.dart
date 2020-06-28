@@ -109,9 +109,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SizedBox(
-          height: screenAwareHeight(60, context),
-        ),
         //Mails manage image.
         Center(
           child: Image.asset(
@@ -144,9 +141,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SizedBox(
-          height: screenAwareHeight(60, context),
-        ),
         //Mails manage image.
         Center(
           child: Image.asset(
@@ -177,9 +171,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        SizedBox(
-          height: screenAwareHeight(60, context),
-        ),
         //Mails manage image.
         Center(
           child: Image.asset(
@@ -233,27 +224,30 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   ///Returns the button that takes
   ///us to the page to log in.
   Widget _startButton(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
-      child: MainButton(
-        enabledColor: _theme.primaryColor,
-        isLoading: false,
-        borderRadius: 5,
-        height: screenAwareHeight(50, context),
-        enabled: true,
-        child: Text(
-          "Start Learning",
-          style: _theme.textTheme.button.copyWith(
-            color: _theme.backgroundColor,
-          ),
-        ),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => WelcomeScreen(),
+    return SafeArea(
+      child: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+        child: MainButton(
+          enabledColor: _theme.primaryColor,
+          isLoading: false,
+          borderRadius: 5,
+          height: screenAwareHeight(50, context),
+          enabled: true,
+          child: Text(
+            "Start Learning",
+            style: _theme.textTheme.button.copyWith(
+              color: _theme.backgroundColor,
             ),
-          );
-        },
+          ),
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => WelcomeScreen(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
