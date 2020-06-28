@@ -3,6 +3,8 @@ import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:teachme/utils/size.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/size.dart';
+import 'package:teachme/ui/screens/welcome/welcome_screen.dart';
+import 'package:teachme/utils/helper_functions.dart';
 
 /// OnBoarding screen.
 ///
@@ -237,7 +239,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         enabledColor: _theme.primaryColor,
         isLoading: false,
         borderRadius: 5,
-        onTap: () {},
         height: screenAwareHeight(50, context),
         enabled: true,
         child: Text(
@@ -246,6 +247,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             color: _theme.backgroundColor,
           ),
         ),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => WelcomeScreen(),
+            ),
+          );
+        },
       ),
     );
   }

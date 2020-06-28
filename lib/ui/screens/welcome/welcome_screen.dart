@@ -51,10 +51,11 @@ class WelcomeScreen extends StatelessWidget {
           height: screenAwareHeight(30, context),
         ),
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: screenAwareWidth(70, context)),
+          padding: EdgeInsets.symmetric(
+            horizontal: screenAwareWidth(20, context),
+          ),
           child: Text(
-            "When you create a new account you accept the Terms of Use of TeachMe",
+            "When you create a new account you accept\n the Terms of Use of TeachMe",
             style: _theme.textTheme.subtitle2.copyWith(
               color: const Color.fromRGBO(249, 249, 255, 0.5),
             ),
@@ -62,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: screenAwareHeight(80, context),
+          height: screenAwareHeight(60, context),
         ),
       ],
     );
