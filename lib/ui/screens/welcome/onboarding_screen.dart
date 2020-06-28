@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
-import 'package:teachme/ui/screens/route_screen.dart';
 import 'package:teachme/ui/screens/welcome/welcome_screen.dart';
 import 'package:teachme/utils/helper_functions.dart';
 import 'package:teachme/utils/size.dart';
@@ -24,27 +23,65 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Theme data information
+    ThemeData _theme = Theme.of(context);
+
     return Scaffold(
       body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            //Mails page.
-            _mailsPage(context),
-            //Fast and secure page.
-            _securePage(context),
-            //Events free page.
-            _eventsPage(context)
-          ],
-          onPageChanged: (index) {
-            _page.value = index;
+            //Page header
+            _pageHeader(context, _theme)
+            /* PageView(
+              controller: _pageController,
+              scrollDirection: Axis.horizontal,
+              children: <Widget>[
+                //Mails page.
+                _mailsPage(context),
+                //Fast and secure page.
+                _securePage(context),
+                //Events free page.
+                _eventsPage(context)
+              ],
+              onPageChanged: (index) {
+                _page.value = index;
 
-            setState(() {});
-          },
+                setState(() {});
+              },
+            ), */
+          ],
         ),
       ),
       bottomNavigationBar: _pageIndicator(context),
+    );
+  }
+
+  /// Returns the page header
+  Widget _pageHeader(BuildContext context, ThemeData theme) {
+    return Container(
+      margin: EdgeInsets.only(top: screenAwareHeight(50, context)),
+      child: Center(
+        child: RichText(
+          text: TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: "Teach",
+                style: theme.textTheme.headline4.copyWith(
+                  color: theme.backgroundColor,
+                ),
+              ),
+              TextSpan(
+                text: "ME",
+                style: theme.textTheme.headline4.copyWith(
+                  color: theme.primaryColor,
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 

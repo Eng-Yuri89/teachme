@@ -19,10 +19,10 @@ ThemeData buildLightTheme() {
   // And apply changes on it:
   return base.copyWith(
     textTheme: GoogleFonts.robotoTextTheme(),
-    primaryColor: const Color(0xFF1B1B1D),
-    accentColor: const Color(0xFF4458BE),
-    scaffoldBackgroundColor: const Color(0xfffefdff),
-    backgroundColor: const Color(0xFFFFFFFF),
+    primaryColor: const Color.fromRGBO(114, 63, 232, 1),
+    accentColor: const Color.fromRGBO(103, 90, 255, 1),
+    scaffoldBackgroundColor: const Color(0x020202),
+    backgroundColor: const Color.fromRGBO(249, 249, 255, 1),
     appBarTheme: AppBarTheme(color: Color(0xFFFFFFFF)),
     iconTheme: IconThemeData(color: Color(0xFF1B1B1D)),
     //Check box and toogle colors.
