@@ -27,28 +27,7 @@ class RouteScreen extends StatelessWidget {
           final User user = snapshot.data;
 
           if (user == null) {
-            return FutureBuilder<bool>(
-              future: _validateRun(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data) {
-                    return WelcomeScreen();
-                  }
-                  return OnBoardingScreen();
-                } else {
-                  return Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor:
-                            Theme.of(context).primaryColor.withOpacity(0.4),
-                        valueColor: AlwaysStoppedAnimation(
-                            Theme.of(context).primaryColor),
-                      ),
-                    ),
-                  );
-                }
-              },
-            );
+            return OnBoardingScreen();
           }
 
           return MultiProvider(

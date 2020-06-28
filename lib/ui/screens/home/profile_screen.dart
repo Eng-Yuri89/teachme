@@ -1,6 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:teachme/constants/strings.dart';
+import 'package:teachme/services/auth_service.dart';
+import 'package:teachme/ui/widgets/platform_alert_dialog.dart';
+import 'package:teachme/ui/widgets/platform_exception_alert_dialog.dart';
 import 'package:teachme/utils/size.dart';
 
 /// Profile screen
@@ -9,6 +16,35 @@ import 'package:teachme/utils/size.dart';
 /// information of the user logged into the app.
 class ProfileScreen extends StatelessWidget {
   static ThemeData _theme;
+
+  /// It is about asking to the user if want to close his session
+  /// This functions will show a alert message [PlatformAlertDialog]
+  Future<void> _confirmSignOut(BuildContext context) async {
+    final bool didRequestSignOut = await PlatformAlertDialog(
+      title: Strings.logout,
+      content: Strings.logoutAreYouSure,
+      cancelActionText: Strings.cancel,
+      defaultActionText: Strings.logout,
+    ).show(context);
+    if (didRequestSignOut == true) {
+      _signOut(context);
+      Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      final AuthService auth = Provider.of<AuthService>(context, listen: false);
+      GoogleSignIn googleSignIn = new GoogleSignIn();
+      googleSignIn.signOut();
+      await auth.signOut();
+    } on PlatformException catch (e) {
+      await PlatformExceptionAlertDialog(
+        title: Strings.logoutFailed,
+        exception: e,
+      ).show(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +95,13 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               height: screenAwareHeight(30, context),
             ),
-            _option(title: "Log Out", context: context, hasTrailing: false),
+            _option(
+                title: "Log Out",
+                context: context,
+                hasTrailing: false,
+                onTap: () {
+                  _confirmSignOut(context);
+                }),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
@@ -142,7 +184,10 @@ class ProfileScreen extends StatelessWidget {
 
   ///Listtile creation
   Widget _option(
-      {String title, BuildContext context, bool hasTrailing = true}) {
+      {String title,
+      BuildContext context,
+      bool hasTrailing = true,
+      VoidCallback onTap}) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: screenAwareWidth(5, context),
@@ -161,6 +206,7 @@ class ProfileScreen extends StatelessWidget {
             color: Color.fromRGBO(218, 218, 218, 1),
           ),
         ),
+        onTap: onTap,
       ),
     );
   }

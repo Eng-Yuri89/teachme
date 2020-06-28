@@ -19,10 +19,12 @@ ThemeData buildLightTheme() {
   // And apply changes on it:
   return base.copyWith(
     textTheme: GoogleFonts.montserratTextTheme().copyWith(
-      headline4: base.textTheme.headline4.copyWith(fontWeight: FontWeight.bold),
-      headline6: base.textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
-      button: base.textTheme.button.copyWith(fontWeight: FontWeight.bold),
-    ),
+        headline4:
+            base.textTheme.headline4.copyWith(fontWeight: FontWeight.bold),
+        headline6:
+            base.textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
+        button: base.textTheme.button.copyWith(
+            fontWeight: FontWeight.bold, letterSpacing: 0.125, fontSize: 14.0)),
     primaryColor: const Color.fromRGBO(114, 63, 232, 1),
     accentColor: const Color.fromRGBO(249, 249, 255, 1),
     scaffoldBackgroundColor: const Color(0x020202),

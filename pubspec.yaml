@@ -48,6 +48,12 @@ dependencies:
   #Firebase packages
   firebase_auth: ^0.16.0
 
+  #Google SignIn packages
+  google_sign_in: ^4.5.1
+
+  #Facebook package
+  flutter_facebook_login: ^3.0.0
+
   #Random value
   random_string:
 
@@ -86,6 +92,9 @@ dependencies:
 
   #Pin Code Text Field
   pin_code_text_field: ^1.6.0
+
+  #simple animations
+  simple_animations: ^1.3.11 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -62,35 +62,24 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   // Theme data.
   ThemeData _theme;
 
-  // Input Controllers for
-  // email and password
-  TextEditingController phoneNumber = TextEditingController(text: '');
-
-  // Confirm OTP code
-  TextEditingController verificationCodeController =
-      TextEditingController(text: '');
-
-  //Form Key identifier
-  final _signInFormKey = new GlobalKey<FormState>();
-
-  /// SignIn Method
   ///
   /// This is the method to authenticate the user with
-  /// Email and password
-  Future<void> _signInWithPhoneNumber(BuildContext context) async {
-    if (_signInFormKey.currentState.validate()) {
-      try {
-        await widget.manager.verifyPhoneNumber(phoneNumber.text);
-      } on PlatformException catch (e) {
-        showSignInError(context, e);
-      }
+  /// Google
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    try {
+      await widget.manager.signInWithGoogle();
+      Navigator.of(context).pop();
+    } on PlatformException catch (e) {
+      showSignInError(context, e);
     }
   }
 
-  Future<void> _validateOTPCode(BuildContext context) async {
+  ///
+  /// This is the method to authenticate the user with
+  /// Google
+  Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      await widget.manager
-          .signInWithPhoneNumber(verificationCodeController.text);
+      await widget.manager.signInWithFacebook();
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
       showSignInError(context, e);
@@ -102,133 +91,125 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
     _theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-      ),
-      bottomSheet: Text(''),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _signInFormKey,
+      backgroundColor: _theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              _headerText(),
-              _loginInputs(context),
-              SizedBox(height: screenAwareHeight(40, context)),
-              _loginActionButtons(context),
-            ],
+            children: <Widget>[_pageHeader(context), _buttons(context)],
           ),
         ),
       ),
     );
   }
 
-  Widget _headerText() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Column(
-        children: <Widget>[
-          Text('Bienvenido a TLAR',
-              style: _theme.textTheme.headline6
-                  .copyWith(fontWeight: FontWeight.bold)),
-          SizedBox(
-            height: screenAwareHeight(24, context),
-          ),
-          Text(
-            'Ingrese su número de teléfono para entrar a la aplicación.',
-            textAlign: TextAlign.justify,
-            style: _theme.textTheme.subtitle2,
-          ),
-          SizedBox(
-            height: screenAwareHeight(24, context),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Return the login inputs.
-  Widget _loginInputs(BuildContext context) {
+  ///Returns the icon with the login information
+  Widget _pageHeader(BuildContext context) {
     return Column(
       children: <Widget>[
-        //Email input.
-        _input(context),
+        SizedBox(
+          height: screenAwareHeight(60, context),
+        ),
+        Image.asset(
+          "assets/welcome/login_icon.png",
+          fit: BoxFit.fill,
+          width: screenAwareWidth(44, context),
+        ),
+        SizedBox(
+          height: screenAwareHeight(40, context),
+        ),
+        Text(
+          "Create an Account to start learning",
+          style: _theme.textTheme.subtitle2.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
+        SizedBox(
+          height: screenAwareHeight(30, context),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: screenAwareWidth(20, context),
+          ),
+          child: Text(
+            "When you create a new account you accept\n the Terms of Use of TeachMe",
+            style: _theme.textTheme.subtitle2.copyWith(
+              color: const Color.fromRGBO(249, 249, 255, 0.5),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          height: screenAwareHeight(60, context),
+        ),
       ],
     );
   }
 
-  /// Return the textField from the email.
-  Widget _input(BuildContext context) {
-    Widget pinCodeTextField = PinCodeTextField(
-      highlightAnimation: true,
-      highlightAnimationBeginColor: Colors.white,
-      highlightAnimationEndColor: Theme.of(context).primaryColor,
-      pinTextAnimatedSwitcherDuration: Duration(milliseconds: 500),
-      wrapAlignment: WrapAlignment.center,
-      autofocus: true,
-      pinTextStyle: _theme.textTheme.headline6,
-      controller: verificationCodeController,
-      hasTextBorderColor: Theme.of(context).primaryColor,
-      pinBoxBorderWidth: 0,
-      pinBoxRadius: 5,
-      maxLength: 6,
-      pinBoxHeight: screenAwareHeight(50, context),
-      pinBoxWidth: screenAwareHeight(50, context),
-      onDone: null,
-    );
-    Widget textFormField = TextFormField(
-      keyboardType: TextInputType.phone,
-      cursorColor: _theme.primaryColor,
-      maxLength: 8,
-      maxLengthEnforced: true,
-      controller: phoneNumber,
-      validator: (value) {
-        if (value == "") return "This field is required.";
-        return null;
-      },
-      style: _theme.textTheme.subtitle1,
-      autofocus: true,
-      decoration: inputDecoration(context: context),
-    );
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(24, context)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(widget.isLoading ? 'Código Validación' : 'Teléfono',
-              style: _theme.accentTextTheme.subtitle2),
-          SizedBox(height: screenAwareHeight(10, context)),
-          // Email input.
-          widget.isLoading ? pinCodeTextField : textFormField
-        ],
-      ),
+  ///Login buttons are created
+  Widget _buttons(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        _facebookButton(context),
+        SizedBox(
+          height: screenAwareHeight(20, context),
+        ),
+        Text(
+          "or",
+          style: _theme.textTheme.subtitle1.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
+        SizedBox(
+          height: screenAwareHeight(20, context),
+        ),
+        _googleButton(context),
+      ],
     );
   }
 
-  /// Return the login action buttons.
-  Widget _loginActionButtons(BuildContext context) {
+  ///Returns the button to log in with Facebook
+  Widget _facebookButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      child: _loginButton(context),
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      child: MainButton(
+        enabledColor: const Color.fromRGBO(90, 126, 255, 1),
+        isLoading: false,
+        borderRadius: 5,
+        onTap: () {
+          _signInWithFacebook(context);
+        },
+        height: screenAwareHeight(50, context),
+        enabled: true,
+        child: Text(
+          "Continue with Facebook",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
+      ),
     );
   }
 
-  /// Login button action.
-  Widget _loginButton(BuildContext context) {
-    return MainButton(
-      enabledColor: _theme.buttonColor,
-      isLoading: false,
-      onTap: () {
-        widget.isLoading
-            ? _validateOTPCode(context)
-            : _signInWithPhoneNumber(context);
-      },
-      child: Text(
-        widget.isLoading ? 'Confirmar' : 'Validar',
-        style: _theme.textTheme.button.copyWith(color: _theme.backgroundColor),
+  ///Returns the button to log in with Google
+  Widget _googleButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      child: MainButton(
+        enabledColor: const Color.fromRGBO(255, 90, 90, 1),
+        isLoading: false,
+        borderRadius: 5,
+        onTap: () {
+          _signInWithGoogle(context);
+        },
+        height: screenAwareHeight(50, context),
+        enabled: true,
+        child: Text(
+          "Continue with Google",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.backgroundColor,
+          ),
+        ),
       ),
-      enabled: true,
-      height: screenAwareHeight(50, context),
     );
   }
 }
