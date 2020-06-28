@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:teachme/models/lesson.dart';
 import 'package:teachme/models/teacher.dart';
+import 'package:teachme/ui/screens/home/select_date_lesson_screen.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/size.dart';
 
@@ -49,6 +50,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
       isSelected: false,
     )
   ];
+  List<Lesson> _selectedLesson = new List<Lesson>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +58,15 @@ class _TeacherDetailState extends State<TeacherDetail> {
     _theme = Theme.of(context);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: screenAwareHeight(_screen.height * 0.62, context),
-              width: _screen.width,
-              child: _pageHeader(context),
-            ),
-            _bottomPageView(context),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: _screen.height * 0.55,
+            width: _screen.width,
+            child: _pageHeader(context),
+          ),
+          _bottomPageView(context, _screen),
+        ],
       ),
     );
   }
@@ -79,13 +79,10 @@ class _TeacherDetailState extends State<TeacherDetail> {
       children: <Widget>[
         Hero(
           tag: widget.heroKey,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-            child: FadeInImage(
-              fit: BoxFit.cover,
-              placeholder: AssetImage("assets/home/loading.gif"),
-              image: NetworkImage(widget.teacher.photoUrl),
-            ),
+          child: FadeInImage(
+            fit: BoxFit.cover,
+            placeholder: AssetImage("assets/home/loading.gif"),
+            image: NetworkImage(widget.teacher.photoUrl),
           ),
         ),
         Image.asset(
@@ -96,7 +93,7 @@ class _TeacherDetailState extends State<TeacherDetail> {
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             SizedBox(
-              height: screenAwareHeight(360, context),
+              height: screenAwareHeight(320, context),
             ),
             //Teacher name.
             Text(
@@ -128,13 +125,13 @@ class _TeacherDetailState extends State<TeacherDetail> {
   ///Returns the page view with
   ///short description of the
   ///teacher and lessons.
-  Widget _bottomPageView(BuildContext context) {
+  Widget _bottomPageView(BuildContext context, Size screen) {
     return Column(
       children: <Widget>[
         _topTab(context),
         Container(
           width: double.infinity,
-          height: screenAwareHeight(250, context),
+          height: screen.height * 0.3892,
           child: PageView(
             controller: _controller,
             onPageChanged: (int index) {
@@ -235,14 +232,9 @@ class _TeacherDetailState extends State<TeacherDetail> {
   ///Returns the about me page.
   Widget _aboutMePage(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: screenAwareWidth(20, context),
-      ),
+      padding: EdgeInsets.all(screenAwareWidth(20, context)),
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: screenAwareHeight(47, context),
-          ),
           Text(
             widget.teacher.description,
             style: _theme.textTheme.bodyText1.copyWith(
@@ -257,19 +249,22 @@ class _TeacherDetailState extends State<TeacherDetail> {
 
   ///Returns the lessons page.
   Widget _lessonsPage(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: screenAwareWidth(20, context),
-      ),
-      child: ListView.separated(
-        itemBuilder: (BuildContext context, int index) {
-          return _lessonCard(context, _lessonList[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(color: _theme.backgroundColor.withOpacity(0.25));
-        },
-        itemCount: _lessonList.length,
-      ),
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: ListView.separated(
+            padding: EdgeInsets.all(screenAwareWidth(20, context)),
+            itemBuilder: (BuildContext context, int index) {
+              return _lessonCard(context, _lessonList[index]);
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(color: _theme.backgroundColor.withOpacity(0.25));
+            },
+            itemCount: _lessonList.length,
+          ),
+        ),
+        _bottomButton(context),
+      ],
     );
   }
 
@@ -313,9 +308,20 @@ class _TeacherDetailState extends State<TeacherDetail> {
               enabledColor: _theme.primaryColor,
               disableColor: Color.fromRGBO(116, 115, 131, 1),
               onTap: () {
+                _selectedLesson.add(lesson);
                 lesson.isSelected = !lesson.isSelected;
 
                 setState(() {});
+
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SelectDateLessonScreen(
+                      heroKey: widget.heroKey,
+                      lesson: lesson,
+                      teacher: widget.teacher,
+                    ),
+                  ),
+                );
               },
               child: Text(
                 "CHOOSE",
@@ -335,6 +341,28 @@ class _TeacherDetailState extends State<TeacherDetail> {
           height: screenAwareHeight(5, context),
         ),
       ],
+    );
+  }
+
+  ///Returns the bottom button.
+  Widget _bottomButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      child: MainButton(
+        enabledColor: _theme.primaryColor,
+        disableColor: Color.fromRGBO(116, 115, 131, 1),
+        onTap: () {},
+        child: Text(
+          "BOOK A CLASS",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.accentColor,
+          ),
+        ),
+        enabled: _selectedLesson.length == 0 ? false : true,
+        height: screenAwareHeight(50, context),
+        isLoading: false,
+        borderRadius: screenAwareWidth(5, context),
+      ),
     );
   }
 }
