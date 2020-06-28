@@ -119,6 +119,7 @@ flutter:
     - assets/onboarding/
     - assets/landing/
     - assets/welcome/
+    - assets/profile/
     - assets/branding/
     - assets/settings/
     - assets/teacher/
