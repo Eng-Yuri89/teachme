@@ -1,12 +1,161 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:teachme/utils/size.dart';
 
 /// Profile screen
 ///
 /// Returns the window with the personal
 /// information of the user logged into the app.
 class ProfileScreen extends StatelessWidget {
+  static ThemeData _theme;
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    _theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: _theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _userImage(context),
+            _optionHeader("ACCOUNT", context),
+            _option("My Lessons", context),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenAwareWidth(20, context)),
+              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
+            ),
+            _option("My Teachers", context),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenAwareWidth(20, context)),
+              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
+            ),
+            SizedBox(
+              height: screenAwareHeight(30, context),
+            ),
+            _optionHeader("SETTINGS", context),
+            _option("Privacy Policy", context),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenAwareWidth(20, context)),
+              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
+            ),
+            _option("Terms of Use", context),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenAwareWidth(20, context)),
+              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
+            ),
+            _option("About", context),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenAwareWidth(20, context)),
+              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
+            ),
+            SizedBox(
+              height: screenAwareHeight(30, context),
+            ),
+            _option("Log Out", context),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenAwareWidth(20, context)),
+              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _userImage(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: screenAwareWidth(20, context),
+        vertical: screenAwareHeight(30, context),
+      ),
+      child: Row(
+        children: <Widget>[
+          CircleAvatar(
+            radius: screenAwareWidth(30, context),
+            backgroundImage: AssetImage(
+              "assets/profile/user_image.png",
+            ),
+          ),
+          SizedBox(
+            width: screenAwareWidth(19, context),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Javier Cabrera",
+                style: _theme.textTheme.subtitle2.copyWith(
+                  color: _theme.backgroundColor,
+                ),
+              ),
+              SizedBox(
+                height: screenAwareHeight(10, context),
+              ),
+              Text(
+                "Javiercabrera@gmail.com",
+                style: _theme.textTheme.caption.copyWith(
+                  color: _theme.backgroundColor,
+                ),
+              ),
+            ],
+          ),
+          Expanded(child: Container()),
+          Column(
+            children: <Widget>[
+              Image.asset(
+                "assets/profile/edit_user.png",
+                fit: BoxFit.fill,
+                width: screenAwareWidth(16, context),
+              ),
+              SizedBox(
+                height: screenAwareWidth(20, context),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _optionHeader(String title, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      child: Text(
+        title,
+        style: _theme.textTheme.subtitle1.copyWith(
+          color: _theme.backgroundColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _option(String title, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: screenAwareWidth(5, context),
+      ),
+      child: ListTile(
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+          color: Color.fromRGBO(218, 218, 218, 1),
+          size: screenAwareWidth(17, context),
+        ),
+        title: Text(
+          title,
+          style: _theme.textTheme.subtitle2.copyWith(
+            color: Color.fromRGBO(218, 218, 218, 1),
+          ),
+        ),
+      ),
+    );
   }
 }
