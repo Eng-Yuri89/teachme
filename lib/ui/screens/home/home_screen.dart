@@ -85,20 +85,18 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //Page header.
-              _pageHeader(context),
-              //Recommended teacher list.
-              _recommendedListView(context),
-              //Top rated title.
-              _topRatedTitle(context),
-              //Top rated list.
-              _topListView(context)
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            //Page header.
+            _pageHeader(context),
+            //Recommended teacher list.
+            _recommendedListView(context),
+            //Top rated title.
+            _topRatedTitle(context),
+            //Top rated list.
+            _topListView(context)
+          ],
         ),
       ),
     );
@@ -225,8 +223,18 @@ class HomeScreen extends StatelessWidget {
   /// Returns the top rated list view
   /// separated.
   Widget _topListView(BuildContext context) {
-    return Column(
-      children: _topList.map((teacher) => _topCard(context, teacher)).toList(),
+    return Expanded(
+      child: ListView.separated(
+        scrollDirection: Axis.vertical,
+        padding: EdgeInsets.all(screenAwareWidth(20, context)),
+        itemCount: _topList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return _topCard(context, _topList[index]);
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider(color: _theme.backgroundColor.withOpacity(0.25));
+        },
+      ),
     );
   }
 
@@ -303,6 +311,7 @@ class HomeScreen extends StatelessWidget {
   ///favorite button add.
   Widget _topCardHeader(BuildContext context, Teacher teacher) {
     return Container(
+      width: screenAwareWidth(260, context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
