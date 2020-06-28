@@ -144,11 +144,12 @@ class HomeScreen extends StatelessWidget {
         //Teacher image.
         ClipRRect(
           borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-          child: Image(
-            image: NetworkImage(teacher.photoUrl),
+          child: FadeInImage(
             fit: BoxFit.fill,
             width: screenAwareWidth(196, context),
             height: screenAwareHeight(120, context),
+            placeholder: AssetImage("assets/home/loading.gif"),
+            image: NetworkImage(teacher.photoUrl),
           ),
         ),
         SizedBox(height: screenAwareHeight(10, context)),
@@ -253,10 +254,12 @@ class HomeScreen extends StatelessWidget {
   Widget _topCardImage(BuildContext context, Teacher teacher) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-      child: Image(
-        image: NetworkImage(teacher.photoUrl),
+      child: FadeInImage(
         fit: BoxFit.fill,
         height: screenAwareHeight(100, context),
+        width: screenAwareWidth(60, context),
+        placeholder: AssetImage("assets/home/loading.gif"),
+        image: NetworkImage(teacher.photoUrl),
       ),
     );
   }
