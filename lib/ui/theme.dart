@@ -20,6 +20,7 @@ ThemeData buildLightTheme() {
   return base.copyWith(
     textTheme: GoogleFonts.montserratTextTheme().copyWith(
       headline4: base.textTheme.headline4.copyWith(fontWeight: FontWeight.bold),
+      headline6: base.textTheme.headline6.copyWith(fontWeight: FontWeight.bold),
       button: base.textTheme.button.copyWith(fontWeight: FontWeight.bold),
     ),
     primaryColor: const Color.fromRGBO(114, 63, 232, 1),

@@ -22,13 +22,13 @@ class ProfileScreen extends StatelessWidget {
           children: <Widget>[
             _userImage(context),
             _optionHeader("ACCOUNT", context),
-            _option("My Lessons", context),
+            _option(title: "My Lessons", context: context),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
               child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
             ),
-            _option("My Teachers", context),
+            _option(title: "My Teachers", context: context),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
@@ -38,19 +38,19 @@ class ProfileScreen extends StatelessWidget {
               height: screenAwareHeight(30, context),
             ),
             _optionHeader("SETTINGS", context),
-            _option("Privacy Policy", context),
+            _option(title: "Privacy Policy", context: context),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
               child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
             ),
-            _option("Terms of Use", context),
+            _option(title: "Terms of Use", context: context),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
               child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
             ),
-            _option("About", context),
+            _option(title: "About", context: context),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
@@ -59,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               height: screenAwareHeight(30, context),
             ),
-            _option("Log Out", context),
+            _option(title: "Log Out", context: context, hasTrailing: false),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
@@ -141,17 +141,20 @@ class ProfileScreen extends StatelessWidget {
   }
 
   ///Listtile creation
-  Widget _option(String title, BuildContext context) {
+  Widget _option(
+      {String title, BuildContext context, bool hasTrailing = true}) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: screenAwareWidth(5, context),
       ),
       child: ListTile(
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          color: Color.fromRGBO(218, 218, 218, 1),
-          size: screenAwareWidth(17, context),
-        ),
+        trailing: hasTrailing
+            ? Icon(
+                Icons.arrow_forward_ios,
+                color: Color.fromRGBO(218, 218, 218, 1),
+                size: screenAwareWidth(17, context),
+              )
+            : SizedBox(),
         title: Text(
           title,
           style: _theme.textTheme.subtitle2.copyWith(

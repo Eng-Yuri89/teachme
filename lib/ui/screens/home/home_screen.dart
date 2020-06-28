@@ -17,8 +17,7 @@ class HomeScreen extends StatelessWidget {
       email: "angelcabrera18398@gmail.com",
       fullname: "Angel Cabrera",
       phoneNumber: "+502 30435391",
-      description:
-          "Improve your UX skills and a couple of sessions Improve your UX skills and a couple of sessions Improve your UX skills and a couple of sessions.",
+      description: "Improve your UX skills and a couple of sessions.",
       photoUrl:
           "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
     ),
@@ -78,18 +77,20 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            //Page header.
-            _pageHeader(context),
-            //Recommended teacher list.
-            _recommendedListView(context),
-            //Top rated title.
-            _topRatedTitle(context),
-            //Top rated list.
-            _topListView(context)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              //Page header.
+              _pageHeader(context),
+              //Recommended teacher list.
+              _recommendedListView(context),
+              //Top rated title.
+              _topRatedTitle(context),
+              //Top rated list.
+              _topListView(context)
+            ],
+          ),
         ),
       ),
     );
@@ -99,8 +100,8 @@ class HomeScreen extends StatelessWidget {
   Widget _pageHeader(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: screenAwareWidth(20, context),
-        right: screenAwareWidth(20, context),
+        left: screenAwareWidth(24, context),
+        right: screenAwareWidth(24, context),
         bottom: screenAwareWidth(20, context),
         top: screenAwareWidth(30, context),
       ),
@@ -117,11 +118,11 @@ class HomeScreen extends StatelessWidget {
   Widget _recommendedListView(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: screenAwareWidth(180, context),
+      height: screenAwareHeight(220, context),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(
-          horizontal: screenAwareWidth(20, context),
+          horizontal: screenAwareWidth(24, context),
         ),
         itemCount: _recommendedList.length,
         itemBuilder: (BuildContext context, int index) {
@@ -129,7 +130,7 @@ class HomeScreen extends StatelessWidget {
         },
         separatorBuilder: (BuildContext context, int index) {
           return SizedBox(
-            width: screenAwareWidth(20, context),
+            width: screenAwareWidth(24, context),
           );
         },
       ),
@@ -138,41 +139,48 @@ class HomeScreen extends StatelessWidget {
 
   /// Returns the teacher recommended card.
   Widget _recomemendedCard(BuildContext context, Teacher teacher) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        //Teacher image.
-        ClipRRect(
-          borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-          child: Image(
-            image: NetworkImage(teacher.photoUrl),
-            fit: BoxFit.fill,
-            width: screenAwareWidth(196, context),
-            height: screenAwareHeight(120, context),
+    return Container(
+      width: screenAwareWidth(200, context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          //Teacher image.
+          Container(
+            width: double.infinity,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
+              child: Image(
+                image: NetworkImage(teacher.photoUrl),
+                fit: BoxFit.fill,
+                height: screenAwareHeight(120, context),
+              ),
+            ),
+            decoration: BoxDecoration(
+              borderRadius:
+                  BorderRadius.circular(screenAwareWidth(30, context)),
+            ),
           ),
-        ),
-        SizedBox(height: screenAwareHeight(10, context)),
-        //Teacher name.
-        Text(
-          teacher.fullname,
-          style: _theme.textTheme.subtitle1.copyWith(
-            color: _theme.accentColor,
+          SizedBox(height: screenAwareHeight(10, context)),
+          //Teacher name.
+          Text(
+            teacher.fullname,
+            style: _theme.textTheme.subtitle1.copyWith(
+              color: _theme.accentColor,
+            ),
           ),
-        ),
-        SizedBox(height: screenAwareHeight(10, context)),
-        Container(
-          width: screenAwareWidth(196, context),
-          height: screenAwareHeight(40, context),
-          child: AutoSizeText(
+          SizedBox(height: screenAwareHeight(10, context)),
+          AutoSizeText(
             teacher.description,
             style: _theme.textTheme.bodyText2.copyWith(
               color: _theme.accentColor.withOpacity(0.8),
             ),
+            softWrap: true,
             textAlign: TextAlign.left,
             overflow: TextOverflow.fade,
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -182,7 +190,7 @@ class HomeScreen extends StatelessWidget {
       padding: EdgeInsets.only(
         left: screenAwareWidth(20, context),
         right: screenAwareWidth(20, context),
-        top: screenAwareHeight(40, context),
+        top: screenAwareHeight(20, context),
         bottom: screenAwareWidth(20, context),
       ),
       child: Text(
@@ -197,55 +205,52 @@ class HomeScreen extends StatelessWidget {
   /// Returns the top rated list view
   /// separated.
   Widget _topListView(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.all(screenAwareWidth(20, context)),
-        itemCount: _topList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _topCard(context, _topList[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(color: _theme.backgroundColor.withOpacity(0.25));
-        },
-      ),
+    return Column(
+      children: _topList.map((teacher) => _topCard(context, teacher)).toList(),
     );
   }
 
   /// Returns the top rated teacher
   /// card with relevant information.
   Widget _topCard(BuildContext context, Teacher teacher) {
-    return Row(
-      children: <Widget>[
-        //Teacher image.
-        _topCardImage(context, teacher),
-        SizedBox(width: screenAwareWidth(15, context)),
-        Container(
-          height: screenAwareHeight(100, context),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //Header card.
-              _topCardHeader(context, teacher),
-              //Teacher description.
-              Container(
-                height: screenAwareHeight(38, context),
-                width: screenAwareWidth(260, context),
-                child: AutoSizeText(
-                  teacher.description,
-                  style: _theme.textTheme.bodyText2.copyWith(
-                    color: _theme.backgroundColor.withOpacity(0.8),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(screenAwareWidth(24, context), 0,
+          screenAwareWidth(24, context), screenAwareHeight(20, context)),
+      child: Row(
+        children: <Widget>[
+          //Teacher image.
+          _topCardImage(context, teacher),
+          SizedBox(width: screenAwareWidth(15, context)),
+          Expanded(
+            child: Container(
+              height: screenAwareHeight(100, context),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  //Header card.
+                  _topCardHeader(context, teacher),
+                  //Teacher description.
+                  Container(
+                    height: screenAwareHeight(38, context),
+                    width: screenAwareWidth(
+                        MediaQuery.of(context).size.width * 0.7, context),
+                    child: AutoSizeText(
+                      teacher.description,
+                      style: _theme.textTheme.bodyText2.copyWith(
+                        color: _theme.backgroundColor.withOpacity(0.8),
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
                   ),
-                  textAlign: TextAlign.justify,
-                ),
+                  _topCartFooter(context, teacher),
+                ],
               ),
-              _topCartFooter(context, teacher),
-            ],
-          ),
-        )
-      ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -265,9 +270,9 @@ class HomeScreen extends StatelessWidget {
   ///favorite button add.
   Widget _topCardHeader(BuildContext context, Teacher teacher) {
     return Container(
-      width: screenAwareWidth(260, context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           //Teacher name.
           Text(
