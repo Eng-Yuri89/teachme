@@ -9,6 +9,7 @@ import 'package:teachme/services/auth_service.dart';
 import 'package:teachme/ui/widgets/platform_alert_dialog.dart';
 import 'package:teachme/ui/widgets/platform_exception_alert_dialog.dart';
 import 'package:teachme/utils/size.dart';
+import 'package:teachme/ui/screens/home/about_screen.dart';
 
 /// Profile screen
 ///
@@ -86,7 +87,17 @@ class ProfileScreen extends StatelessWidget {
                   horizontal: screenAwareWidth(20, context)),
               child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
             ),
-            _option(title: "About", context: context),
+            _option(
+              title: "About",
+              context: context,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => AboutScreen(),
+                  ),
+                );
+              },
+            ),
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: screenAwareWidth(20, context)),
@@ -183,11 +194,12 @@ class ProfileScreen extends StatelessWidget {
   }
 
   ///Listtile creation
-  Widget _option(
-      {String title,
-      BuildContext context,
-      bool hasTrailing = true,
-      VoidCallback onTap}) {
+  Widget _option({
+    String title,
+    BuildContext context,
+    bool hasTrailing = true,
+    VoidCallback onTap,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: screenAwareWidth(5, context),
