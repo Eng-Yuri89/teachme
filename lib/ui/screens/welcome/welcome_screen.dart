@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
           height: screenAwareHeight(60, context),
         ),
         Image.asset(
-          "assets/login_icon.png",
+          "assets/welcome/login_icon.png",
           fit: BoxFit.fill,
           width: screenAwareWidth(44, context),
         ),
