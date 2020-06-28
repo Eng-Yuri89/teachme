@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:teachme/ui/screens/auth/login_screen.dart';
 import 'package:teachme/ui/widgets/fade_animation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teachme/utils/size.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/size.dart';
@@ -252,8 +253,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               color: _theme.backgroundColor,
             ),
           ),
-          onTap: () {
-            Navigator.of(context).push(
+          onTap: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setBool("first-run", true);
+
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => LoginScreen(),
               ),

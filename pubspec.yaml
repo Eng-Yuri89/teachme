@@ -132,6 +132,8 @@ flutter:
     - assets/branding/
     - assets/settings/
     - assets/teacher/
+    - assets/home/
+    - assets/favorite/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

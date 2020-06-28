@@ -45,7 +45,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             EdgeInsets.symmetric(horizontal: screenAwareWidth(15, context)),
         height: screenAwareHeight(50, context),
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(127, 128, 132, 0.1),
+          color: const Color.fromRGBO(26, 27, 29, 1),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -79,7 +79,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       screenAwareWidth(10, context),
                       screenAwareHeight(0, context)),
                   border: InputBorder.none,
-                  hintText: "Search a Teacher",
+                  hintText: "Search a category",
                   hintStyle: TextStyle(
                     color: _theme.backgroundColor.withOpacity(0.50),
                   ),
