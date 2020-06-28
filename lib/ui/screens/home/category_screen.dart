@@ -38,8 +38,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
   Widget _filterInput(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: screenAwareWidth(20, context),
-          vertical: screenAwareHeight(30, context)),
+          horizontal: screenAwareWidth(24, context),
+          vertical: screenAwareHeight(20, context)),
       child: Container(
         padding:
             EdgeInsets.symmetric(horizontal: screenAwareWidth(15, context)),
@@ -96,34 +96,58 @@ class _CategoryScreenState extends State<CategoryScreen> {
     return Expanded(
       child: GridView.count(
         padding:
-            EdgeInsets.symmetric(horizontal: screenAwareWidth(10, context)),
+            EdgeInsets.symmetric(horizontal: screenAwareWidth(14, context)),
+        mainAxisSpacing: 12.0,
         crossAxisCount: 2,
         children: _categories
             .map(
-              (c) => Container(
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(26, 27, 29, 1),
-                  borderRadius: BorderRadius.circular(
-                    screenAwareWidth(5, context),
-                  ),
-                ),
-                margin: new EdgeInsets.symmetric(
-                  horizontal: screenAwareHeight(10, context),
-                  vertical: screenAwareWidth(10, context),
-                ),
-                width: 50,
-                height: 50,
-                child: Center(
-                  child: Text(
-                    "$c",
-                    style: _theme.textTheme.subtitle2.copyWith(
-                      color: _theme.backgroundColor,
-                    ),
-                  ),
-                ),
+              (category) => CategoryCard(
+                theme: _theme,
+                categoryName: category,
               ),
             )
             .toList(),
+      ),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  const CategoryCard({
+    Key key,
+    @required ThemeData theme,
+    this.categoryName,
+  })  : theme = theme,
+        super(key: key);
+
+  final ThemeData theme;
+  final String categoryName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(26, 27, 29, 1),
+        borderRadius: BorderRadius.circular(
+          screenAwareWidth(5, context),
+        ),
+      ),
+      margin: new EdgeInsets.only(
+          top: screenAwareWidth(10, context),
+          bottom: screenAwareWidth(10, context),
+          left: screenAwareWidth(10, context),
+          right: screenAwareWidth(10, context)),
+      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      width: 50,
+      height: 50,
+      child: Center(
+        child: Text(
+          "$categoryName",
+          style: theme.textTheme.subtitle2.copyWith(
+            color: theme.backgroundColor,
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

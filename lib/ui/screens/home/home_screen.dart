@@ -85,18 +85,20 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            //Page header.
-            _pageHeader(context),
-            //Recommended teacher list.
-            _recommendedListView(context),
-            //Top rated title.
-            _topRatedTitle(context),
-            //Top rated list.
-            _topListView(context)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              //Page header.
+              _pageHeader(context),
+              //Recommended teacher list.
+              _recommendedListView(context),
+              //Top rated title.
+              _topRatedTitle(context),
+              //Top rated list.
+              _topListView(context)
+            ],
+          ),
         ),
       ),
     );
@@ -106,8 +108,8 @@ class HomeScreen extends StatelessWidget {
   Widget _pageHeader(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: screenAwareWidth(20, context),
-        right: screenAwareWidth(20, context),
+        left: screenAwareWidth(24, context),
+        right: screenAwareWidth(24, context),
         bottom: screenAwareWidth(20, context),
         top: screenAwareWidth(30, context),
       ),
@@ -124,11 +126,11 @@ class HomeScreen extends StatelessWidget {
   Widget _recommendedListView(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: screenAwareWidth(180, context),
+      height: screenAwareHeight(220, context),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.symmetric(
-          horizontal: screenAwareWidth(20, context),
+          horizontal: screenAwareWidth(24, context),
         ),
         itemCount: _recommendedList.length,
         itemBuilder: (BuildContext context, int index) {
@@ -136,7 +138,7 @@ class HomeScreen extends StatelessWidget {
         },
         separatorBuilder: (BuildContext context, int index) {
           return SizedBox(
-            width: screenAwareWidth(20, context),
+            width: screenAwareWidth(24, context),
           );
         },
       ),
@@ -208,7 +210,7 @@ class HomeScreen extends StatelessWidget {
       padding: EdgeInsets.only(
         left: screenAwareWidth(20, context),
         right: screenAwareWidth(20, context),
-        top: screenAwareHeight(40, context),
+        top: screenAwareHeight(20, context),
         bottom: screenAwareWidth(20, context),
       ),
       child: Text(
@@ -223,18 +225,8 @@ class HomeScreen extends StatelessWidget {
   /// Returns the top rated list view
   /// separated.
   Widget _topListView(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.all(screenAwareWidth(20, context)),
-        itemCount: _topList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _topCard(context, _topList[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(color: _theme.backgroundColor.withOpacity(0.25));
-        },
-      ),
+    return Column(
+      children: _topList.map((teacher) => _topCard(context, teacher)).toList(),
     );
   }
 
@@ -311,9 +303,9 @@ class HomeScreen extends StatelessWidget {
   ///favorite button add.
   Widget _topCardHeader(BuildContext context, Teacher teacher) {
     return Container(
-      width: screenAwareWidth(260, context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           //Teacher name.
           Text(

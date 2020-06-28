@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
+import 'package:teachme/ui/screens/auth/login_screen.dart';
+import 'package:teachme/ui/widgets/fade_animation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teachme/utils/size.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
@@ -61,7 +63,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           text: TextSpan(
             children: <TextSpan>[
               TextSpan(
-                text: "Teach",
+                text: "teach",
                 style: _theme.textTheme.headline4.copyWith(
                   color: _theme.backgroundColor,
                 ),
@@ -111,11 +113,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         //Mails manage image.
-        Center(
-          child: Image.asset(
-            "assets/onboarding/learning_page.png",
-            fit: BoxFit.fill,
-            width: screenAwareWidth(250, context),
+        FadeAnimation(
+          0.7,
+          Center(
+            child: Image.asset(
+              "assets/onboarding/learning_page.png",
+              fit: BoxFit.fill,
+              width: screenAwareWidth(250, context),
+            ),
           ),
         ),
         SizedBox(height: screenAwareHeight(65.8, context)),
@@ -143,11 +148,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         //Mails manage image.
-        Center(
-          child: Image.asset(
-            "assets/onboarding/people_page.png",
-            fit: BoxFit.fill,
-            width: screenAwareWidth(250, context),
+        FadeAnimation(
+          0.7,
+          Center(
+            child: Image.asset(
+              "assets/onboarding/people_page.png",
+              fit: BoxFit.fill,
+              width: screenAwareWidth(250, context),
+            ),
           ),
         ),
         SizedBox(height: screenAwareHeight(65.8, context)),
@@ -173,11 +181,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         //Mails manage image.
-        Center(
-          child: Image.asset(
-            "assets/onboarding/class_page.png",
-            fit: BoxFit.fill,
-            width: screenAwareWidth(250, context),
+        FadeAnimation(
+          0.7,
+          Center(
+            child: Image.asset(
+              "assets/onboarding/class_page.png",
+              fit: BoxFit.fill,
+              width: screenAwareWidth(250, context),
+            ),
           ),
         ),
         SizedBox(height: screenAwareHeight(65.8, context)),
@@ -227,8 +238,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   Widget _startButton(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+        padding: EdgeInsets.symmetric(
+            horizontal: screenAwareWidth(20, context),
+            vertical: screenAwareHeight(20, context)),
         child: MainButton(
           enabledColor: _theme.primaryColor,
           isLoading: false,
@@ -247,7 +259,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
-                builder: (context) => WelcomeScreen(),
+                builder: (context) => LoginScreen(),
               ),
             );
           },
