@@ -88,6 +88,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     color: _theme.backgroundColor.withOpacity(0.50),
                   ),
                 ),
+                onFieldSubmitted: (value) {
+                  setState(() {});
+                },
               ),
             ),
           ],

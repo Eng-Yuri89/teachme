@@ -2,7 +2,6 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:teachme/constants/strings.dart';
-import 'package:teachme/models/mail.dart';
 import 'package:teachme/ui/widgets/platform_exception_alert_dialog.dart';
 
 /// Validator for email in Forms
@@ -68,15 +67,4 @@ Future<void> showSignInError(
     title: Strings.signInFailed,
     exception: exception,
   ).show(context);
-}
-
-/// Getting the number of packages
-/// for the [mail]
-int getNumberOfImagesOfTheMail(Mail mail) {
-  int numberOfImages = 0;
-  if (mail.package1.imageUrl != '') numberOfImages += 1;
-  if (mail.package2.imageUrl != '') numberOfImages += 1;
-  if (mail.package3.imageUrl != '') numberOfImages += 1;
-  if (mail.package4.imageUrl != '') numberOfImages += 1;
-  return numberOfImages;
 }

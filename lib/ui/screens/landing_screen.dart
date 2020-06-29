@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:teachme/ui/screens/events/events_screen.dart';
 import 'package:teachme/ui/screens/home/category_screen.dart';
 import 'package:teachme/ui/screens/home/favorite_screen.dart';
 import 'package:teachme/ui/screens/home/home_screen.dart';
-import 'package:teachme/ui/screens/home/notification_screen.dart';
 import 'package:teachme/ui/screens/home/profile_screen.dart';
 import 'package:teachme/utils/size.dart';
 
