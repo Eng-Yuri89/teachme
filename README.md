@@ -3,11 +3,6 @@
 
 The teachME is an open-source project to help people around the world to get incomes throught share the knowledge. 
 
-This project was designed with FIGMA. 
-
-### Technologies
-<ol><li>Cloud Firestore Database</li><li>Google and Facebook Authentication</li></ol>
-
 <img src="assets/promotional/promotional.png" alt="mockup-intro" />
 
 ## Watch the video
