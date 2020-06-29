@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
+import 'package:teachme/models/profile.dart';
+import 'package:teachme/models/user.dart';
 import 'package:teachme/services/auth_service.dart';
 import 'package:teachme/services/db.dart';
 import 'package:teachme/services/signin_manager.dart';
+import 'package:teachme/ui/screens/landing_screen.dart';
 import 'package:teachme/ui/widgets/input_decoration.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/helper_functions.dart';
@@ -67,8 +70,23 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   /// Google
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
-      await widget.manager.signInWithGoogle();
-      Navigator.of(context).pop();
+      final user = await widget.manager.signInWithGoogle();
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MultiProvider(
+            providers: [
+              // Make user stream available
+              Provider<User>.value(value: user),
+              // See implementation details in next sections
+              StreamProvider<Profile>.value(
+                value: widget.manager.db.streamProfile(user.uid),
+              ),
+            ],
+            child: LandingScreen(),
+          ),
+        ),
+      );
     } on PlatformException catch (e) {
       showSignInError(context, e);
     }
@@ -79,8 +97,23 @@ class _LoginScreenBodyState extends State<LoginScreenBody> {
   /// Google
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
-      await widget.manager.signInWithFacebook();
-      Navigator.of(context).pop();
+      final user = await widget.manager.signInWithFacebook();
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => MultiProvider(
+            providers: [
+              // Make user stream available
+              Provider<User>.value(value: user),
+              // See implementation details in next sections
+              StreamProvider<Profile>.value(
+                value: widget.manager.db.streamProfile(user.uid),
+              ),
+            ],
+            child: LandingScreen(),
+          ),
+        ),
+      );
     } on PlatformException catch (e) {
       showSignInError(context, e);
     }

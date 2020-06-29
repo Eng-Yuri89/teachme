@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:teachme/constants/strings.dart';
 import 'package:teachme/models/user.dart';
 import 'package:teachme/services/auth_service.dart';
+import 'package:teachme/ui/screens/welcome/onboarding_screen.dart';
 import 'package:teachme/ui/widgets/platform_alert_dialog.dart';
 import 'package:teachme/ui/widgets/platform_exception_alert_dialog.dart';
 import 'package:teachme/utils/size.dart';
@@ -31,7 +32,6 @@ class ProfileScreen extends StatelessWidget {
     ).show(context);
     if (didRequestSignOut == true) {
       _signOut(context);
-      Navigator.of(context).pop();
     }
   }
 
@@ -41,6 +41,12 @@ class ProfileScreen extends StatelessWidget {
       GoogleSignIn googleSignIn = new GoogleSignIn();
       googleSignIn.signOut();
       await auth.signOut();
+
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => OnBoardingScreen(),
+        ),
+      );
     } on PlatformException catch (e) {
       await PlatformExceptionAlertDialog(
         title: Strings.logoutFailed,
@@ -159,9 +165,6 @@ class ProfileScreen extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             radius: screenAwareWidth(30, context),
-            /* backgroundImage: AssetImage(
-              "assets/profile/user_image.png",
-            ) */
             backgroundImage: NetworkImage(user.photoUrl),
           ),
           SizedBox(

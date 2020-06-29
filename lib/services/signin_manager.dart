@@ -41,11 +41,11 @@ class SignInManager {
     return await _signIn(auth.signInAnonymously);
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<User> signInWithGoogle() async {
     return await _signIn(auth.signInWithGoogle);
   }
 
-  Future<void> signInWithFacebook() async {
+  Future<User> signInWithFacebook() async {
     return await _signIn(auth.signInWithFacebook);
   }
 
