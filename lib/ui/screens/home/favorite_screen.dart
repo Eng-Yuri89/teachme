@@ -202,7 +202,7 @@ class _FavoriteScrenState extends State<FavoriteScreen> {
                         } else {
                           return Center(
                             child: Text(
-                              "There are no favorite teachers yet.",
+                              "There are no favorite teachers yet",
                               style: _theme.textTheme.bodyText2.copyWith(
                                 color: _theme.accentColor.withOpacity(0.8),
                               ),
@@ -225,7 +225,7 @@ class _FavoriteScrenState extends State<FavoriteScreen> {
                 } else {
                   return Center(
                     child: Text(
-                      "There are no favorite teachers yet.",
+                      "There are no favorite teachers yet",
                       style: _theme.textTheme.bodyText2.copyWith(
                         color: _theme.accentColor.withOpacity(0.8),
                       ),
