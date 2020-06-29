@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:teachme/models/action_package.dart';
+import 'package:teachme/models/category.dart';
 import 'package:teachme/models/issue_message.dart';
 import 'package:queries/collections.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +13,11 @@ import 'package:teachme/models/office.dart';
 import 'package:teachme/models/profile.dart';
 import 'package:teachme/models/message.dart';
 import 'package:teachme/models/status.dart';
+import 'package:teachme/models/teacher.dart';
+import 'package:teachme/models/teacher_favorite.dart';
+import 'package:teachme/models/user.dart';
 import 'package:teachme/models/voclients.dart';
+import 'package:uuid/uuid.dart';
 
 class DatabaseService {
   final Firestore _db = Firestore.instance;
@@ -91,7 +97,10 @@ class DatabaseService {
   /// [collectionName] witll all fields on
   /// [data] and their respective [id]
   Future<void> updateCollection(
-      String collectionName, Map data, String id) async {
+    String collectionName,
+    Map data,
+    String id,
+  ) async {
     var ref = _db.collection(collectionName);
     await ref.document(id).updateData(data);
     return;
@@ -321,5 +330,97 @@ class DatabaseService {
         return _actionMap;
       },
     );
+  }
+
+  ///Get the teacher list to the
+  ///firebase database.
+  Stream<List<Teacher>> getTeacherList(List<TeacherFavorite> favoriteList) {
+    var ref = _db.collection("teachers");
+
+    return ref.snapshots().map((list) {
+      var teachList = list.documents
+          .map(
+            (doc) => Teacher.fromMap(doc.data, doc.documentID),
+          )
+          .toList();
+
+      teachList.forEach((teach) {
+        var _find = favoriteList.where((fav) => fav.teacher == teach.id);
+
+        if (_find.isNotEmpty) {
+          teach.isFavorite = true;
+          teach.favoriteId = _find.first.id;
+        } else {
+          teach.isFavorite = false;
+          teach.favoriteId = "";
+        }
+      });
+
+      return teachList;
+    });
+  }
+
+  ///Returns the favorite teacher
+  ///for the user.
+  Stream<List<TeacherFavorite>> getFavoriteTeacher(User user) {
+    var ref =
+        _db.collection("teacherfavorite").where("user", isEqualTo: user.uid);
+
+    return ref.snapshots().map((list) => list.documents
+        .map(
+          (doc) => TeacherFavorite.fromMap(doc.data, doc.documentID),
+        )
+        .toList());
+  }
+
+  ///Get the favorite teacher list to the
+  ///firebase database.
+  Stream<List<Teacher>> getFavoriteTeacherList(
+    List<TeacherFavorite> favoriteList,
+  ) {
+    var ref = _db.collection("teachers");
+
+    return ref.snapshots().map((list) {
+      var teachList = list.documents
+          .map(
+            (doc) => Teacher.fromMap(doc.data, doc.documentID),
+          )
+          .toList();
+      List<Teacher> _finalList = new List<Teacher>();
+
+      teachList.forEach((teach) {
+        var _find = favoriteList.where((fav) => fav.teacher == teach.id);
+
+        if (_find.isNotEmpty) {
+          teach.isFavorite = true;
+          teach.favoriteId = _find.first.id;
+
+          _finalList.add(teach);
+        }
+      });
+
+      return _finalList;
+    });
+  }
+
+  ///Add a favorite teacher.
+  Future<void> addFavoriteTeacher(String teacher, String user, String id) {
+    return _db.collection('teacherfavorite').document(id).setData({
+      "teacher": teacher,
+      "user": user,
+    });
+  }
+
+  ///Remove a favorite teacher.
+  Future<void> removeFavorite(String id) {
+    return _db.collection("teacherfavorite").document(id).delete();
+  }
+
+  ///Get the categories.
+  Stream<List<Category>> getCategory() {
+    var ref = _db.collection("category");
+
+    return ref.snapshots().map((list) =>
+        list.documents.map((doc) => Category.fromMap(doc.data)).toList());
   }
 }

@@ -9,26 +9,30 @@ class Teacher {
   final String phoneNumber;
   final String photoUrl;
   final String description;
+  bool isFavorite;
+  String favoriteId;
 
-  Teacher(
-      {this.id,
-      this.email,
-      this.fullname,
-      this.phoneNumber,
-      this.photoUrl,
-      this.description,
-      this.resume});
+  Teacher({
+    this.id,
+    this.email,
+    this.fullname,
+    this.phoneNumber,
+    this.photoUrl,
+    this.description,
+    this.resume,
+  });
 
   factory Teacher.fromMap(Map<String, dynamic> map, String documentID) {
     final data = map ?? {};
 
     return Teacher(
-        id: data["id"] ?? "",
-        email: data["email"] ?? "",
-        fullname: data["firstName"] ?? "",
-        phoneNumber: data["phoneNumber"] ?? "",
-        photoUrl: data["photoUrl"] ?? "",
-        description: data["description"] ?? "",
-        resume: data["resume"] ?? "");
+      id: documentID ?? "",
+      email: data["email"] ?? "",
+      fullname: data["fullname"] ?? "",
+      phoneNumber: data["phoneNumber"] ?? "",
+      photoUrl: data["photoUrl"] ?? "",
+      description: data["description"] ?? "",
+      resume: data["resume"] ?? "",
+    );
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teachme/models/category.dart';
+import 'package:teachme/services/db.dart';
+import 'package:teachme/ui/widgets/category_card.dart';
 import 'package:teachme/utils/size.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -8,16 +12,6 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   static ThemeData _theme;
-
-  List<String> _categories = [
-    "Physical Training",
-    "Photography",
-    "Programming",
-    "Finances",
-    "Sciences",
-    "Design, Photography"
-  ];
-
   TextEditingController _filterController = new TextEditingController();
 
   @override
@@ -94,60 +88,47 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget _grid(BuildContext context) {
     return Expanded(
-      child: GridView.count(
-        padding:
-            EdgeInsets.symmetric(horizontal: screenAwareWidth(14, context)),
-        mainAxisSpacing: 12.0,
-        crossAxisCount: 2,
-        children: _categories
-            .map(
-              (category) => CategoryCard(
-                theme: _theme,
-                categoryName: category,
+      child: StreamBuilder<List<Category>>(
+        stream: Provider.of<DatabaseService>(context).getCategory(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.hasData && snapshot.data.length > 0) {
+              return GridView.count(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(14, context)),
+                mainAxisSpacing: 12.0,
+                crossAxisCount: 2,
+                children: snapshot.data
+                    .map(
+                      (category) => CategoryCard(
+                        theme: _theme,
+                        categoryName: category.name,
+                      ),
+                    )
+                    .toList(),
+              );
+            } else {
+              return Center(
+                child: Text(
+                  "No data.",
+                  style: _theme.textTheme.bodyText2.copyWith(
+                    color: _theme.accentColor.withOpacity(0.8),
+                  ),
+                ),
+              );
+            }
+          } else {
+            return Center(
+              child: CircularProgressIndicator(
+                backgroundColor:
+                    Theme.of(context).primaryColor.withOpacity(0.4),
+                valueColor:
+                    AlwaysStoppedAnimation(Theme.of(context).primaryColor),
               ),
-            )
-            .toList(),
-      ),
-    );
-  }
-}
-
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({
-    Key key,
-    @required ThemeData theme,
-    this.categoryName,
-  })  : theme = theme,
-        super(key: key);
-
-  final ThemeData theme;
-  final String categoryName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(26, 27, 29, 1),
-        borderRadius: BorderRadius.circular(
-          screenAwareWidth(5, context),
-        ),
-      ),
-      margin: new EdgeInsets.only(
-          top: screenAwareWidth(10, context),
-          bottom: screenAwareWidth(10, context),
-          left: screenAwareWidth(10, context),
-          right: screenAwareWidth(10, context)),
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
-      width: 50,
-      height: 50,
-      child: Center(
-        child: Text(
-          "$categoryName",
-          style: theme.textTheme.subtitle2.copyWith(
-            color: theme.backgroundColor,
-          ),
-          textAlign: TextAlign.center,
-        ),
+            );
+          }
+        },
       ),
     );
   }
