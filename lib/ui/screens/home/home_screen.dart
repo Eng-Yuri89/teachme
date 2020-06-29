@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else {
                           return Center(
                             child: Text(
-                              "No data.",
+                              "No teachers were found",
                               style: _theme.textTheme.bodyText2.copyWith(
                                 color: _theme.accentColor.withOpacity(0.8),
                               ),
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return Center(
                     child: Text(
-                      "No data.",
+                      "No teachers were found",
                       style: _theme.textTheme.bodyText2.copyWith(
                         color: _theme.accentColor.withOpacity(0.8),
                       ),
@@ -266,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else {
                           return Center(
                             child: Text(
-                              "No data.",
+                              "No teachers were found",
                               style: _theme.textTheme.bodyText2.copyWith(
                                 color: _theme.accentColor.withOpacity(0.8),
                               ),
@@ -288,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else {
                   return Center(
                     child: Text(
-                      "No data.",
+                      "No teachers were found",
                       style: _theme.textTheme.bodyText2.copyWith(
                         color: _theme.accentColor.withOpacity(0.8),
                       ),

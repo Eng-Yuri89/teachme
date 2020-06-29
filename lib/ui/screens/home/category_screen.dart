@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teachme/models/category.dart';
+import 'package:teachme/models/user.dart';
 import 'package:teachme/services/db.dart';
 import 'package:teachme/ui/widgets/category_card.dart';
 import 'package:teachme/utils/size.dart';
@@ -88,46 +89,51 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget _grid(BuildContext context) {
     return Expanded(
-      child: StreamBuilder<List<Category>>(
-        stream: Provider.of<DatabaseService>(context).getCategory(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData && snapshot.data.length > 0) {
-              return GridView.count(
-                padding: EdgeInsets.symmetric(
-                    horizontal: screenAwareWidth(14, context)),
-                mainAxisSpacing: 12.0,
-                crossAxisCount: 2,
-                children: snapshot.data
-                    .map(
-                      (category) => CategoryCard(
-                        theme: _theme,
-                        categoryName: category.name,
+      child: Consumer<User>(
+        builder: (BuildContext context, User user, Widget widget) {
+          return StreamBuilder<List<Category>>(
+            stream: Provider.of<DatabaseService>(context).getCategory(),
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData && snapshot.data.length > 0) {
+                  return GridView.count(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenAwareWidth(14, context)),
+                    mainAxisSpacing: 12.0,
+                    crossAxisCount: 2,
+                    children: snapshot.data
+                        .map(
+                          (category) => CategoryCard(
+                            theme: _theme,
+                            category: category,
+                            user: user,
+                          ),
+                        )
+                        .toList(),
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      "No categories found",
+                      style: _theme.textTheme.bodyText2.copyWith(
+                        color: _theme.accentColor.withOpacity(0.8),
                       ),
-                    )
-                    .toList(),
-              );
-            } else {
-              return Center(
-                child: Text(
-                  "No data.",
-                  style: _theme.textTheme.bodyText2.copyWith(
-                    color: _theme.accentColor.withOpacity(0.8),
+                    ),
+                  );
+                }
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor:
+                        Theme.of(context).primaryColor.withOpacity(0.4),
+                    valueColor:
+                        AlwaysStoppedAnimation(Theme.of(context).primaryColor),
                   ),
-                ),
-              );
-            }
-          } else {
-            return Center(
-              child: CircularProgressIndicator(
-                backgroundColor:
-                    Theme.of(context).primaryColor.withOpacity(0.4),
-                valueColor:
-                    AlwaysStoppedAnimation(Theme.of(context).primaryColor),
-              ),
-            );
-          }
+                );
+              }
+            },
+          );
         },
       ),
     );

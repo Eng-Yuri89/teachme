@@ -420,7 +420,39 @@ class DatabaseService {
   Stream<List<Category>> getCategory() {
     var ref = _db.collection("category");
 
-    return ref.snapshots().map((list) =>
-        list.documents.map((doc) => Category.fromMap(doc.data)).toList());
+    return ref.snapshots().map((list) => list.documents
+        .map((doc) => Category.fromMap(doc.data, doc.documentID))
+        .toList());
+  }
+
+  ///Get teacher by category.
+  Stream<List<Teacher>> getCategoryTeacher(
+    String category,
+    List<TeacherFavorite> favoriteList,
+  ) {
+    var ref =
+        _db.collection("teachers").where("categories", arrayContains: category);
+
+    return ref.snapshots().map((list) {
+      var teachList = list.documents
+          .map(
+            (doc) => Teacher.fromMap(doc.data, doc.documentID),
+          )
+          .toList();
+
+      teachList.forEach((teach) {
+        var _find = favoriteList.where((fav) => fav.teacher == teach.id);
+
+        if (_find.isNotEmpty) {
+          teach.isFavorite = true;
+          teach.favoriteId = _find.first.id;
+        } else {
+          teach.isFavorite = false;
+          teach.favoriteId = "";
+        }
+      });
+
+      return teachList;
+    });
   }
 }
