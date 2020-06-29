@@ -1,6 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teachme/models/teacher.dart';
+import 'package:teachme/models/teacher_favorite.dart';
+import 'package:teachme/models/user.dart';
+import 'package:teachme/services/db.dart';
 import 'package:teachme/ui/screens/teacher/teacher_detail.dart';
 import 'package:teachme/utils/size.dart';
 import 'package:uuid/uuid.dart';
@@ -9,75 +13,14 @@ import 'package:uuid/uuid.dart';
 ///
 /// Main page showing the recommended
 /// and best ranked courses.
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   //Global theme.
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   ThemeData _theme;
-  // Recommended list.
-  List<Teacher> _recommendedList = [
-    Teacher(
-      id: "123",
-      email: "angelcabrera18398@gmail.com",
-      fullname: "Angel Cabrera",
-      phoneNumber: "+502 30435391",
-      resume: "Teaches Photography and Video Production",
-      description: "Improve your UX skills and a couple of sessions.",
-      photoUrl:
-          "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
-    ),
-    Teacher(
-      id: "125",
-      email: "juanperez@gmail.com",
-      fullname: "Juan Perez",
-      phoneNumber: "+502 30344591",
-      resume: "Teaches Photography and Video Production",
-      description: "Improve your UX skills and a couple of sessions.",
-      photoUrl:
-          "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
-    ),
-    Teacher(
-      id: "127",
-      email: "pedrosalazar@gmail.com",
-      fullname: "Pedro Salazar",
-      phoneNumber: "+502 98765434",
-      resume: "Teaches Photography and Video Production",
-      description: "Improve your UX skills and a couple of sessions.",
-      photoUrl:
-          "https://dreamstop.com/wp-content/uploads/2013/07/teacher-dream-meaning.jpg",
-    )
-  ];
-  //Top Rated list.
-  List<Teacher> _topList = [
-    Teacher(
-      id: "123",
-      email: "angelcabrera18398@gmail.com",
-      fullname: "Angel Cabrera",
-      phoneNumber: "+502 30435391",
-      resume: "Teaches Photography and Video Production",
-      description: "Software Engineer, 5 years mobile development experience.",
-      photoUrl:
-          "https://i.pinimg.com/originals/73/d3/1c/73d31c1a205363fa75e8c8834d3f1166.jpg",
-    ),
-    Teacher(
-      id: "125",
-      email: "juanperez@gmail.com",
-      fullname: "Juan Perez",
-      phoneNumber: "+502 30344591",
-      resume: "Teaches Photography and Video Production",
-      description: "Software Engineer, 5 years mobile development experience.",
-      photoUrl:
-          "https://i.pinimg.com/originals/73/d3/1c/73d31c1a205363fa75e8c8834d3f1166.jpg",
-    ),
-    Teacher(
-      id: "127",
-      email: "pedrosalazar@gmail.com",
-      fullname: "Pedro Salazar",
-      phoneNumber: "+502 98765434",
-      resume: "Teaches Photography and Video Production",
-      description: "Software Engineer, 5 years mobile development experience.",
-      photoUrl:
-          "https://i.pinimg.com/originals/73/d3/1c/73d31c1a205363fa75e8c8834d3f1166.jpg",
-    )
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -125,18 +68,82 @@ class HomeScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: screenAwareHeight(220, context),
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(
-          horizontal: screenAwareWidth(24, context),
-        ),
-        itemCount: _recommendedList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _recomemendedCard(context, _recommendedList[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return SizedBox(
-            width: screenAwareWidth(24, context),
+      child: Consumer<User>(
+        builder: (BuildContext context, User user, Widget widget) {
+          return StreamBuilder<List<TeacherFavorite>>(
+            stream:
+                Provider.of<DatabaseService>(context).getFavoriteTeacher(user),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<TeacherFavorite>> favSnapshot) {
+              if (favSnapshot.connectionState == ConnectionState.active) {
+                if (favSnapshot.hasData) {
+                  return StreamBuilder<List<Teacher>>(
+                    stream: Provider.of<DatabaseService>(context)
+                        .getTeacherList(favSnapshot.data),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Teacher>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        if (snapshot.hasData && snapshot.data.length > 0) {
+                          return ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: screenAwareWidth(24, context),
+                            ),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return _recomemendedCard(
+                                  context, snapshot.data[index]);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: screenAwareWidth(24, context),
+                              );
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              "No data.",
+                              style: _theme.textTheme.bodyText2.copyWith(
+                                color: _theme.accentColor.withOpacity(0.8),
+                              ),
+                            ),
+                          );
+                        }
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor:
+                                Theme.of(context).primaryColor.withOpacity(0.4),
+                            valueColor: AlwaysStoppedAnimation(
+                                Theme.of(context).primaryColor),
+                          ),
+                        );
+                      }
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      "No data.",
+                      style: _theme.textTheme.bodyText2.copyWith(
+                        color: _theme.accentColor.withOpacity(0.8),
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor:
+                        Theme.of(context).primaryColor.withOpacity(0.4),
+                    valueColor:
+                        AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                  ),
+                );
+              }
+            },
           );
         },
       ),
@@ -224,15 +231,82 @@ class HomeScreen extends StatelessWidget {
   /// separated.
   Widget _topListView(BuildContext context) {
     return Expanded(
-      child: ListView.separated(
-        scrollDirection: Axis.vertical,
-        padding: EdgeInsets.all(screenAwareWidth(20, context)),
-        itemCount: _topList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return _topCard(context, _topList[index]);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider(color: _theme.backgroundColor.withOpacity(0.25));
+      child: Consumer<User>(
+        builder: (BuildContext context, User user, Widget widget) {
+          return StreamBuilder<List<TeacherFavorite>>(
+            stream:
+                Provider.of<DatabaseService>(context).getFavoriteTeacher(user),
+            builder: (BuildContext context,
+                AsyncSnapshot<List<TeacherFavorite>> favSnapshot) {
+              if (favSnapshot.connectionState == ConnectionState.active) {
+                if (favSnapshot.hasData) {
+                  return StreamBuilder<List<Teacher>>(
+                    stream: Provider.of<DatabaseService>(context)
+                        .getTeacherList(favSnapshot.data),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Teacher>> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        if (snapshot.hasData && snapshot.data.length > 0) {
+                          return ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            padding:
+                                EdgeInsets.all(screenAwareWidth(20, context)),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return _topCard(
+                                  context, snapshot.data[index], user);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider(
+                                  color:
+                                      _theme.backgroundColor.withOpacity(0.25));
+                            },
+                          );
+                        } else {
+                          return Center(
+                            child: Text(
+                              "No data.",
+                              style: _theme.textTheme.bodyText2.copyWith(
+                                color: _theme.accentColor.withOpacity(0.8),
+                              ),
+                            ),
+                          );
+                        }
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor:
+                                Theme.of(context).primaryColor.withOpacity(0.4),
+                            valueColor: AlwaysStoppedAnimation(
+                                Theme.of(context).primaryColor),
+                          ),
+                        );
+                      }
+                    },
+                  );
+                } else {
+                  return Center(
+                    child: Text(
+                      "No data.",
+                      style: _theme.textTheme.bodyText2.copyWith(
+                        color: _theme.accentColor.withOpacity(0.8),
+                      ),
+                    ),
+                  );
+                }
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor:
+                        Theme.of(context).primaryColor.withOpacity(0.4),
+                    valueColor:
+                        AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                  ),
+                );
+              }
+            },
+          );
         },
       ),
     );
@@ -240,7 +314,7 @@ class HomeScreen extends StatelessWidget {
 
   /// Returns the top rated teacher
   /// card with relevant information.
-  Widget _topCard(BuildContext context, Teacher teacher) {
+  Widget _topCard(BuildContext context, Teacher teacher, User user) {
     //Unique hero key.
     final String _heroKey = "TeacherImage-${new Uuid().v4()}";
 
@@ -258,7 +332,7 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 //Header card.
-                _topCardHeader(context, teacher),
+                _topCardHeader(context, teacher, user),
                 //Teacher description.
                 Container(
                   height: screenAwareHeight(38, context),
@@ -309,12 +383,11 @@ class HomeScreen extends StatelessWidget {
 
   ///Returns the teacher's name and the
   ///favorite button add.
-  Widget _topCardHeader(BuildContext context, Teacher teacher) {
+  Widget _topCardHeader(BuildContext context, Teacher teacher, User user) {
     return Container(
       width: screenAwareWidth(260, context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           //Teacher name.
           Text(
@@ -324,10 +397,26 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           //Favorite button.
-          Image.asset(
-            "assets/landing/favorite.png",
-            fit: BoxFit.fill,
-            width: screenAwareWidth(16, context),
+          InkWell(
+            child: Image.asset(
+              teacher.isFavorite
+                  ? "assets/favorite/favorite.png"
+                  : "assets/landing/favorite.png",
+              fit: BoxFit.fill,
+              width: screenAwareWidth(16, context),
+            ),
+            onTap: () async {
+              DatabaseService _data = new DatabaseService();
+              final _id = teacher.isFavorite
+                  ? teacher.favoriteId
+                  : new Uuid().v1().toString();
+
+              if (!teacher.isFavorite) {
+                await _data.addFavoriteTeacher(teacher.id, user.uid, _id);
+              } else {
+                await _data.removeFavorite(_id);
+              }
+            },
           )
         ],
       ),

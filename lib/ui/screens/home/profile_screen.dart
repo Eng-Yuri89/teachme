@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:teachme/constants/strings.dart';
+import 'package:teachme/models/user.dart';
 import 'package:teachme/services/auth_service.dart';
 import 'package:teachme/ui/widgets/platform_alert_dialog.dart';
 import 'package:teachme/ui/widgets/platform_exception_alert_dialog.dart';
@@ -54,78 +56,100 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _theme.scaffoldBackgroundColor,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _userImage(context),
-            _optionHeader("ACCOUNT", context),
-            _option(title: "My Lessons", context: context),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenAwareWidth(20, context)),
-              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
-            ),
-            _option(title: "My Teachers", context: context),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenAwareWidth(20, context)),
-              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
-            ),
-            SizedBox(
-              height: screenAwareHeight(30, context),
-            ),
-            _optionHeader("SETTINGS", context),
-            _option(title: "Privacy Policy", context: context),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenAwareWidth(20, context)),
-              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
-            ),
-            _option(title: "Terms of Use", context: context),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenAwareWidth(20, context)),
-              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
-            ),
-            _option(
-              title: "About",
-              context: context,
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => AboutScreen(),
+        child: Consumer<User>(
+          builder: (BuildContext context, User user, Widget widget) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _userImage(context, user),
+                _optionHeader("ACCOUNT", context),
+                _option(title: "My Lessons", context: context),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(20, context),
                   ),
-                );
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenAwareWidth(20, context)),
-              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
-            ),
-            SizedBox(
-              height: screenAwareHeight(30, context),
-            ),
-            _option(
-                title: "Log Out",
-                context: context,
-                hasTrailing: false,
-                onTap: () {
-                  _confirmSignOut(context);
-                }),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenAwareWidth(20, context)),
-              child: Divider(color: _theme.backgroundColor.withOpacity(0.25)),
-            ),
-          ],
+                  child: Divider(
+                    color: _theme.backgroundColor.withOpacity(0.25),
+                  ),
+                ),
+                _option(title: "My Teachers", context: context),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(20, context),
+                  ),
+                  child: Divider(
+                    color: _theme.backgroundColor.withOpacity(0.25),
+                  ),
+                ),
+                SizedBox(
+                  height: screenAwareHeight(30, context),
+                ),
+                _optionHeader("SETTINGS", context),
+                _option(title: "Privacy Policy", context: context),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(20, context),
+                  ),
+                  child: Divider(
+                    color: _theme.backgroundColor.withOpacity(0.25),
+                  ),
+                ),
+                _option(title: "Terms of Use", context: context),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(20, context),
+                  ),
+                  child: Divider(
+                    color: _theme.backgroundColor.withOpacity(0.25),
+                  ),
+                ),
+                _option(
+                  title: "About",
+                  context: context,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => AboutScreen(),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(20, context),
+                  ),
+                  child: Divider(
+                    color: _theme.backgroundColor.withOpacity(0.25),
+                  ),
+                ),
+                SizedBox(
+                  height: screenAwareHeight(30, context),
+                ),
+                _option(
+                    title: "Log Out",
+                    context: context,
+                    hasTrailing: false,
+                    onTap: () {
+                      _confirmSignOut(context);
+                    }),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenAwareWidth(20, context),
+                  ),
+                  child: Divider(
+                    color: _theme.backgroundColor.withOpacity(0.25),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
   ///Header creation
-  Widget _userImage(BuildContext context) {
+  Widget _userImage(BuildContext context, User user) {
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: screenAwareWidth(20, context),
@@ -135,9 +159,10 @@ class ProfileScreen extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             radius: screenAwareWidth(30, context),
-            backgroundImage: AssetImage(
+            /* backgroundImage: AssetImage(
               "assets/profile/user_image.png",
-            ),
+            ) */
+            backgroundImage: NetworkImage(user.photoUrl),
           ),
           SizedBox(
             width: screenAwareWidth(19, context),
@@ -145,19 +170,29 @@ class ProfileScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "Javier Cabrera",
-                style: _theme.textTheme.subtitle2.copyWith(
-                  color: _theme.backgroundColor,
+              Container(
+                width: screenAwareWidth(200, context),
+                child: FittedBox(
+                  child: AutoSizeText(
+                    user.displayName,
+                    style: _theme.textTheme.subtitle2.copyWith(
+                      color: _theme.backgroundColor,
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
                 height: screenAwareHeight(10, context),
               ),
-              Text(
-                "Javiercabrera@gmail.com",
-                style: _theme.textTheme.caption.copyWith(
-                  color: _theme.backgroundColor,
+              Container(
+                width: screenAwareWidth(150, context),
+                child: FittedBox(
+                  child: AutoSizeText(
+                    user.email,
+                    style: _theme.textTheme.caption.copyWith(
+                      color: _theme.backgroundColor,
+                    ),
+                  ),
                 ),
               ),
             ],

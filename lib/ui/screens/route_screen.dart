@@ -29,19 +29,7 @@ class RouteScreen extends StatelessWidget {
           final User user = snapshot.data;
 
           if (user == null) {
-            return FutureBuilder<bool>(
-              future: _validateRun(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data) {
-                    return WelcomeScreen();
-                  }
-                  return OnBoardingScreen();
-                } else {
-                  return LoadingScreen();
-                }
-              },
-            );
+            return OnBoardingScreen();
           }
 
           return MultiProvider(
