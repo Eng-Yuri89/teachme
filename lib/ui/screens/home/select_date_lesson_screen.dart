@@ -4,6 +4,7 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:teachme/models/lesson.dart';
 import 'package:teachme/models/teacher.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
+import 'package:teachme/ui/widgets/message_dialog.dart';
 import 'package:teachme/utils/size.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -108,12 +109,14 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
   ///Returns the bottom button.
   Widget _selectDateButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      padding: EdgeInsets.symmetric(
+          horizontal: screenAwareWidth(20, context),
+          vertical: screenAwareHeight(20, context)),
       child: MainButton(
         enabledColor: _theme.primaryColor,
         disableColor: Color.fromRGBO(116, 115, 131, 1),
         child: Text(
-          _currentButton == 0 ? "SELECT A DATE" : "PURCHASE",
+          _currentButton == 0 ? "SELECT DATE" : "PURCHASE",
           style: _theme.textTheme.button.copyWith(
             color: _theme.accentColor,
           ),
@@ -132,7 +135,33 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
   }
 
   ///Purchase the selected lesson.
-  void _purchasLesson() {}
+  void _purchasLesson() {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, animation1, animation2, widget) {
+          return Transform.scale(
+            scale: animation1.value,
+            child: Opacity(opacity: animation1.value, child: widget),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          // The place o
+          return MessageDialog(
+            title: 'Purchase completed',
+            body:
+                'Thanks for being part of TeachME, we hope you enjoy your session.',
+
+            // Confirm to add as a OrgLeader
+            onTap: () {
+              //Navigator.pushReplacement(context, Landin);
+            },
+          );
+        });
+  }
 
   ///Cupertino date time picker.
   void _cupertinoDatePicker(BuildContext context) {

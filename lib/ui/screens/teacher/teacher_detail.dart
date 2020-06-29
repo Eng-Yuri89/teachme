@@ -58,15 +58,17 @@ class _TeacherDetailState extends State<TeacherDetail> {
     _theme = Theme.of(context);
 
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Container(
-            height: _screen.height * 0.55,
-            width: _screen.width,
-            child: _pageHeader(context),
-          ),
-          _bottomPageView(context, _screen),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: _screen.height * 0.55,
+              width: _screen.width,
+              child: _pageHeader(context),
+            ),
+            _bottomPageView(context, _screen),
+          ],
+        ),
       ),
     );
   }
@@ -347,7 +349,9 @@ class _TeacherDetailState extends State<TeacherDetail> {
   ///Returns the bottom button.
   Widget _bottomButton(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
+      padding: EdgeInsets.symmetric(
+          horizontal: screenAwareWidth(20, context),
+          vertical: screenAwareHeight(20, context)),
       child: MainButton(
         enabledColor: _theme.primaryColor,
         disableColor: Color.fromRGBO(116, 115, 131, 1),
