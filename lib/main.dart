@@ -39,8 +39,6 @@ class TeachMeApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        /* locale: DevicePreview.of(context).locale,
-        builder: DevicePreview.appBuilder, */
         debugShowCheckedModeBanner: false,
         theme: buildLightTheme(),
         home: RouteScreen(),
