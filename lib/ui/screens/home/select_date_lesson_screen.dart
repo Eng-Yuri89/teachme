@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:teachme/models/lesson.dart';
 import 'package:teachme/models/teacher.dart';
+import 'package:teachme/ui/widgets/fade_animation.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/ui/widgets/message_dialog.dart';
 import 'package:teachme/utils/size.dart';
@@ -47,7 +48,19 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
           _currentButton == 0 ? Container() : _purchaseConfirmation(context)
         ],
       ),
-      bottomNavigationBar: _selectDateButton(context),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Visibility(
+            visible: _currentButton == 0 ? true : false,
+            child: _selectDateButton(context),
+          ),
+          Visibility(
+            visible: _currentButton == 1 ? true : false,
+            child: _purchaseButton(context),
+          ),
+        ],
+      ),
     );
   }
 
@@ -112,24 +125,54 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
       padding: EdgeInsets.symmetric(
           horizontal: screenAwareWidth(20, context),
           vertical: screenAwareHeight(20, context)),
-      child: MainButton(
-        enabledColor: _theme.primaryColor,
-        disableColor: Color.fromRGBO(116, 115, 131, 1),
-        child: Text(
-          _currentButton == 0 ? "SELECT DATE" : "PURCHASE",
-          style: _theme.textTheme.button.copyWith(
-            color: _theme.accentColor,
+      child: FadeAnimation(
+        0.7,
+        MainButton(
+          enabledColor: _theme.primaryColor,
+          disableColor: Color.fromRGBO(116, 115, 131, 1),
+          child: Text(
+            "SELECT DATE",
+            style: _theme.textTheme.button.copyWith(
+              color: _theme.accentColor,
+            ),
           ),
+          enabled: true,
+          height: screenAwareHeight(50, context),
+          isLoading: false,
+          borderRadius: screenAwareWidth(5, context),
+          onTap: () {
+            _cupertinoDatePicker(context);
+          },
         ),
-        enabled: true,
-        height: screenAwareHeight(50, context),
-        isLoading: false,
-        borderRadius: screenAwareWidth(5, context),
-        onTap: () {
-          _currentButton == 0
-              ? _cupertinoDatePicker(context)
-              : _purchasLesson();
-        },
+      ),
+    );
+  }
+
+  ///Returns the purchase button.
+  Widget _purchaseButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: screenAwareWidth(20, context),
+          vertical: screenAwareHeight(20, context)),
+      child: FadeAnimation(
+        0.7,
+        MainButton(
+          enabledColor: _theme.primaryColor,
+          disableColor: Color.fromRGBO(116, 115, 131, 1),
+          child: Text(
+            "PURCHASE",
+            style: _theme.textTheme.button.copyWith(
+              color: _theme.accentColor,
+            ),
+          ),
+          enabled: true,
+          height: screenAwareHeight(50, context),
+          isLoading: false,
+          borderRadius: screenAwareWidth(5, context),
+          onTap: () {
+            _purchasLesson();
+          },
+        ),
       ),
     );
   }

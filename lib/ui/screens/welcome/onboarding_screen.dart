@@ -253,10 +253,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               color: _theme.backgroundColor,
             ),
           ),
-          onTap: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setBool("first-run", true);
-
+          onTap: () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (context) => LoginScreen(),

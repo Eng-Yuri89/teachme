@@ -5,6 +5,7 @@ import 'package:teachme/models/teacher.dart';
 import 'package:teachme/models/teacher_favorite.dart';
 import 'package:teachme/models/user.dart';
 import 'package:teachme/services/db.dart';
+import 'package:teachme/ui/screens/teacher/teacher_detail.dart';
 import 'package:teachme/utils/size.dart';
 import 'package:uuid/uuid.dart';
 
@@ -103,50 +104,69 @@ class CategoryFiltered extends StatelessWidget {
   /// The filter teacher returns
   /// card with relevant information.
   Widget _filterCard(BuildContext context, Teacher teacher, User user) {
-    return Row(
-      children: <Widget>[
-        //Teacher image.
-        _filterCardImage(context, teacher),
-        SizedBox(width: screenAwareWidth(15, context)),
-        Container(
-          height: screenAwareHeight(100, context),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //Header card.
-              _filterCardHeader(context, teacher, user),
-              //Teacher description.
-              Container(
-                height: screenAwareHeight(38, context),
-                width: screenAwareWidth(260, context),
-                child: AutoSizeText(
-                  teacher.description,
-                  style: _theme.textTheme.bodyText2.copyWith(
-                    color: _theme.backgroundColor.withOpacity(0.8),
+    //Unique hero key.
+    final String _heroKey = "TeacherImage-${new Uuid().v4()}";
+
+    return InkWell(
+      child: Row(
+        children: <Widget>[
+          //Teacher image.
+          _filterCardImage(context, teacher, _heroKey),
+          SizedBox(width: screenAwareWidth(15, context)),
+          Container(
+            height: screenAwareHeight(100, context),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                //Header card.
+                _filterCardHeader(context, teacher, user),
+                //Teacher description.
+                Container(
+                  height: screenAwareHeight(38, context),
+                  width: screenAwareWidth(260, context),
+                  child: AutoSizeText(
+                    teacher.description,
+                    style: _theme.textTheme.bodyText2.copyWith(
+                      color: _theme.backgroundColor.withOpacity(0.8),
+                    ),
+                    textAlign: TextAlign.justify,
                   ),
-                  textAlign: TextAlign.justify,
                 ),
-              ),
-              _filterCardFooter(context, teacher),
-            ],
+                _filterCardFooter(context, teacher),
+              ],
+            ),
+          )
+        ],
+      ),
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => (TeacherDetail(
+              teacher: teacher,
+              heroKey: _heroKey,
+            )),
           ),
-        )
-      ],
+        );
+      },
     );
   }
 
   ///Return the filter card image.
-  Widget _filterCardImage(BuildContext context, Teacher teacher) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
-      child: FadeInImage(
-        fit: BoxFit.fill,
-        height: screenAwareHeight(100, context),
-        width: screenAwareWidth(60, context),
-        placeholder: AssetImage("assets/home/loading.gif"),
-        image: NetworkImage(teacher.photoUrl),
+  Widget _filterCardImage(
+      BuildContext context, Teacher teacher, String heroKey) {
+    return Hero(
+      tag: heroKey,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(screenAwareWidth(5, context)),
+        child: FadeInImage(
+          fit: BoxFit.fill,
+          height: screenAwareHeight(100, context),
+          width: screenAwareWidth(60, context),
+          placeholder: AssetImage("assets/home/loading.gif"),
+          image: NetworkImage(teacher.photoUrl),
+        ),
       ),
     );
   }

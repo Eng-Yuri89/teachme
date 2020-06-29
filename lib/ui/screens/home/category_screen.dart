@@ -53,6 +53,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             // Filter text or filters selected.
             Expanded(
               child: TextFormField(
+                style: TextStyle(color: _theme.accentColor),
                 controller: _filterController,
                 autofocus: false,
                 cursorColor: Theme.of(context).primaryColor,
@@ -60,19 +61,27 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   suffixIcon: _filterController.text == ""
                       ? Container(width: 0, height: 0)
                       : InkWell(
-                          child: Icon(Icons.close),
+                          child: Icon(
+                            Icons.close,
+                            color: _theme.accentColor,
+                          ),
                           onTap: () {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              _filterController.clear();
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              setState(() {});
-                            });
-                          }),
+                            WidgetsBinding.instance.addPostFrameCallback(
+                              (_) {
+                                _filterController.clear();
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                setState(() {});
+                              },
+                            );
+                          },
+                        ),
                   contentPadding: EdgeInsets.fromLTRB(
-                      0,
-                      screenAwareHeight(15, context),
-                      screenAwareWidth(10, context),
-                      screenAwareHeight(0, context)),
+                    0,
+                    screenAwareHeight(15, context),
+                    screenAwareWidth(10, context),
+                    screenAwareHeight(0, context),
+                  ),
                   border: InputBorder.none,
                   hintText: "Search a category",
                   hintStyle: TextStyle(
@@ -97,21 +106,38 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 (BuildContext context, AsyncSnapshot<List<Category>> snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData && snapshot.data.length > 0) {
-                  return GridView.count(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenAwareWidth(14, context)),
-                    mainAxisSpacing: 12.0,
-                    crossAxisCount: 2,
-                    children: snapshot.data
-                        .map(
-                          (category) => CategoryCard(
-                            theme: _theme,
-                            category: category,
-                            user: user,
-                          ),
-                        )
-                        .toList(),
-                  );
+                  List<Category> _catList = snapshot.data;
+
+                  if (_filterController.text != "") {
+                    _catList = _filterList(_catList);
+                  }
+
+                  if (_catList.length > 0) {
+                    return GridView.count(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenAwareWidth(14, context)),
+                      mainAxisSpacing: 12.0,
+                      crossAxisCount: 2,
+                      children: _catList
+                          .map(
+                            (category) => CategoryCard(
+                              theme: _theme,
+                              category: category,
+                              user: user,
+                            ),
+                          )
+                          .toList(),
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        "No categories found",
+                        style: _theme.textTheme.bodyText2.copyWith(
+                          color: _theme.accentColor.withOpacity(0.8),
+                        ),
+                      ),
+                    );
+                  }
                 } else {
                   return Center(
                     child: Text(
@@ -137,5 +163,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
         },
       ),
     );
+  }
+
+  ///Get the filtered list.
+  List<Category> _filterList(List<Category> list) {
+    return list.where((cat) => cat.name == _filterController.text).toList();
   }
 }
