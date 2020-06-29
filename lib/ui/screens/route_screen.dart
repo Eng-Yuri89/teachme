@@ -7,6 +7,7 @@ import 'package:teachme/ui/screens/landing_screen.dart';
 import 'package:teachme/ui/screens/welcome/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teachme/ui/screens/welcome/welcome_screen.dart';
 
 import 'home/loading_screen.dart';
 
@@ -28,7 +29,19 @@ class RouteScreen extends StatelessWidget {
           final User user = snapshot.data;
 
           if (user == null) {
-            return OnBoardingScreen();
+            return FutureBuilder<bool>(
+              future: _validateRun(),
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.data) {
+                    return WelcomeScreen();
+                  }
+                  return OnBoardingScreen();
+                } else {
+                  return LoadingScreen();
+                }
+              },
+            );
           }
 
           return MultiProvider(

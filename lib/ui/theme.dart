@@ -29,7 +29,7 @@ ThemeData buildLightTheme() {
     ),
     primaryColor: const Color.fromRGBO(103, 90, 255, 1),
     accentColor: const Color.fromRGBO(249, 249, 255, 1),
-    scaffoldBackgroundColor: const Color(0x020202),
+    scaffoldBackgroundColor: const Color.fromRGBO(2, 2, 2, 1),
     backgroundColor: const Color.fromRGBO(249, 249, 255, 1),
     appBarTheme: AppBarTheme(color: Color(0xFFFFFFFF)),
     iconTheme: IconThemeData(color: Color(0xFF1B1B1D)),

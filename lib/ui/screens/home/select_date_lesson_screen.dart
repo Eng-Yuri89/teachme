@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:teachme/models/lesson.dart';
 import 'package:teachme/models/teacher.dart';
 import 'package:teachme/ui/widgets/main_button.dart';
 import 'package:teachme/utils/size.dart';
+import 'package:jiffy/jiffy.dart';
 
 ///PurchaseCourseSelectDate
 ///
@@ -22,8 +24,9 @@ class SelectDateLessonScreen extends StatefulWidget {
 
 class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
   Size _size;
-
   ThemeData _theme;
+  DateTime _date;
+  int _currentButton = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +42,11 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
             child: _pageHeader(context),
           ),
           SizedBox(height: screenAwareHeight(39, context)),
-          _lessonDescription(context)
+          _lessonDescription(context),
+          _currentButton == 0 ? Container() : _purchaseConfirmation(context)
         ],
       ),
-      bottomNavigationBar: _bottomButton(context),
+      bottomNavigationBar: _selectDateButton(context),
     );
   }
 
@@ -102,14 +106,14 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
   }
 
   ///Returns the bottom button.
-  Widget _bottomButton(BuildContext context) {
+  Widget _selectDateButton(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenAwareWidth(20, context)),
       child: MainButton(
         enabledColor: _theme.primaryColor,
         disableColor: Color.fromRGBO(116, 115, 131, 1),
         child: Text(
-          "SELECT A DATE",
+          _currentButton == 0 ? "SELECT A DATE" : "PURCHASE",
           style: _theme.textTheme.button.copyWith(
             color: _theme.accentColor,
           ),
@@ -118,7 +122,81 @@ class _SelectDateLessonScreenState extends State<SelectDateLessonScreen> {
         height: screenAwareHeight(50, context),
         isLoading: false,
         borderRadius: screenAwareWidth(5, context),
-        onTap: () {},
+        onTap: () {
+          _currentButton == 0
+              ? _cupertinoDatePicker(context)
+              : _purchasLesson();
+        },
+      ),
+    );
+  }
+
+  ///Purchase the selected lesson.
+  void _purchasLesson() {}
+
+  ///Cupertino date time picker.
+  void _cupertinoDatePicker(BuildContext context) {
+    DatePicker.showDatePicker(
+      context,
+      minDateTime: DateTime(DateTime.now().year - 2),
+      maxDateTime: DateTime(DateTime.now().year + 2),
+      initialDateTime: DateTime.now(),
+      dateFormat: "MMMM-dd-yyyy HH:mm",
+      locale: DateTimePickerLocale.en_us,
+      pickerMode: DateTimePickerMode.datetime,
+      onMonthChangeStartWithFirstDate: true,
+      pickerTheme: DateTimePickerTheme(
+        itemTextStyle: _theme.textTheme.subtitle1.copyWith(
+          color: _theme.accentColor,
+        ),
+        backgroundColor: _theme.scaffoldBackgroundColor,
+        pickerHeight: screenAwareHeight(200, context),
+        cancel: Text(
+          "Cancel",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.accentColor,
+          ),
+        ),
+        confirm: Text(
+          "Confirm",
+          style: _theme.textTheme.button.copyWith(
+            color: _theme.accentColor,
+          ),
+        ),
+      ),
+      onConfirm: (DateTime date, List<int> list) {
+        _date = date;
+        _currentButton = 1;
+
+        setState(() {});
+      },
+    );
+  }
+
+  ///Show the purchase information with
+  ///the price and date.
+  Widget _purchaseConfirmation(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "${widget.lesson.priceHour}\$ / 1 hour",
+              style: _theme.textTheme.subtitle1.copyWith(
+                color: _theme.accentColor,
+              ),
+            ),
+            SizedBox(height: screenAwareHeight(5, context)),
+            Text(
+              "${Jiffy(_date.toString(), "yyyy-MM-dd").format("MMM do")} at ${Jiffy(_date.toString(), "yyyy-MM-dd").format("h:mm")}",
+              style: _theme.textTheme.subtitle1.copyWith(
+                color: _theme.accentColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
